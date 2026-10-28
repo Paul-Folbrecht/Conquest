@@ -1,7 +1,5 @@
-#! /usr/bin/sh
-
-CONQUEST_HOME=/mnt/wind/development/conquest
-JAVA_HOME=/usr/java/jdk1.3
+CONQUEST_HOME=/Users/paulfolbrecht/dev/Conquest
+JAVA_HOME=/usr
 
 CLASSPATH=$CONQUEST_HOME/classes:$CONQUEST_HOME/lib/log4j-full.jar
 echo "CLASSPATH=$CLASSPATH"
