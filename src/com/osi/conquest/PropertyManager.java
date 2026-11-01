@@ -1,12 +1,12 @@
 package com.osi.conquest;
 
 
-import com.sun.image.codec.jpeg.JPEGCodec;
-import com.sun.image.codec.jpeg.JPEGImageDecoder;
+import javax.imageio.ImageIO;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -124,12 +124,15 @@ public class PropertyManager {
      *
      */
     public static BufferedImage getBufferedImage(String name) throws ConquestException {
+        File file = new File(getImagePath(), name + ".jpg");
         try {
-            JPEGImageDecoder decoder =
-                    JPEGCodec.createJPEGDecoder(new FileInputStream(getImagePath() + name + ".jpg"));
-            return decoder.decodeAsBufferedImage();
-        } catch (Exception e) {
-            throw new ConquestException(e.getMessage());
+            BufferedImage image = ImageIO.read(file);
+            if (image == null) {
+                throw new IOException("Unsupported image format: " + file);
+            }
+            return image;
+        } catch (IOException e) {
+            throw new ConquestException("Cannot load image " + file, e);
         }
     }
 

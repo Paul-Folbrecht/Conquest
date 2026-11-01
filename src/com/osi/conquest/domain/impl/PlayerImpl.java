@@ -3,7 +3,7 @@ package com.osi.conquest.domain.impl;
 
 import com.osi.conquest.Logger;
 import com.osi.conquest.domain.*;
-import sun.rmi.runtime.Log;
+
 
 import java.awt.*;
 import java.io.Serializable;

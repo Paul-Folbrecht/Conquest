@@ -9,7 +9,7 @@ import com.osi.conquest.domain.*;
 import com.osi.conquest.domain.impl.mapsquare.*;
 import com.osi.conquest.ui.MainWindow;
 import com.osi.util.StringUtils;
-import sun.rmi.runtime.Log;
+
 
 import java.awt.*;
 import java.util.HashMap;
