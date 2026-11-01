@@ -1,12 +1,10 @@
 package com.osi.conquest.remote.host;
 
-
 import com.osi.conquest.ConquestException;
 import com.osi.conquest.domain.ConquestFactory;
 import com.osi.conquest.domain.Player;
 import com.osi.conquest.domain.impl.HostGameController;
 import com.osi.conquest.remote.PlayerConnectListener;
-
 
 /**
  * This is the interface to the "Host" object.  The Host is responsible for
@@ -15,6 +13,7 @@ import com.osi.conquest.remote.PlayerConnectListener;
  * @author Paul Folbrecht
  */
 public abstract class Host {
+
     protected static Host _instance;
 
     public static Host getInstance() {
@@ -27,15 +26,14 @@ public abstract class Host {
 
     public abstract int getListeningPort();
 
-    public abstract void waitForPlayers(PlayerConnectListener listener, Player[] players,
-                                        boolean isNewGame) throws ConquestException;
+    public abstract void waitForPlayers(PlayerConnectListener listener, Player[] players, boolean isNewGame)
+        throws ConquestException;
 
     public abstract Thread initClients(Player[] players) throws ConquestException;
 
     public abstract void activateRemotePlayer(Player player) throws ConquestException;
 
-    public abstract void sendPlayerMessage(String from, Player to, String msg)
-            throws ConquestException;
+    public abstract void sendPlayerMessage(String from, Player to, String msg) throws ConquestException;
 
     public abstract void sendHostQuittingMessage() throws ConquestException;
 
@@ -56,6 +54,7 @@ public abstract class Host {
      *
      */
     protected class NextPlayerWorker implements Runnable {
+
         protected Player[] _players;
 
         public NextPlayerWorker(Player[] players) {
@@ -71,6 +70,7 @@ public abstract class Host {
      *
      */
     protected class PlayerMessageWorker implements Runnable {
+
         protected String _from;
         protected Player _to;
         protected String _msg;
@@ -90,6 +90,7 @@ public abstract class Host {
      *
      */
     protected class PlayerQuittingWorker implements Runnable {
+
         protected Player _player;
 
         public PlayerQuittingWorker(Player player) {
@@ -105,6 +106,7 @@ public abstract class Host {
      *
      */
     protected class PlayerEliminatedWorker implements Runnable {
+
         protected Player _player;
 
         public PlayerEliminatedWorker(Player player) {

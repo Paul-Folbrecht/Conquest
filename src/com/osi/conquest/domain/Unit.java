@@ -1,11 +1,8 @@
 package com.osi.conquest.domain;
 
-
 import com.osi.conquest.domain.event.UnitActionListener;
-
 import java.awt.*;
 import java.io.Serializable;
-
 
 /**
  * @author Paul Folbrecht

@@ -1,14 +1,13 @@
 package com.osi.conquest;
 
-
 import com.osi.conquest.ui.MainWindow;
-
 
 /**
  * @author Paul Folbrecht
  */
 
 public class Main {
+
     protected static String[] _args;
 
     /**

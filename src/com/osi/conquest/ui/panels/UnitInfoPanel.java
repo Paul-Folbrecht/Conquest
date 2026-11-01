@@ -1,19 +1,17 @@
 package com.osi.conquest.ui.panels;
 
-
 import com.osi.conquest.domain.Transport;
 import com.osi.conquest.domain.Unit;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import javax.swing.*;
 
 /**
  * @author Paul Folbrecht
  */
 public class UnitInfoPanel extends JPanel {
+
     protected Unit _unit = null;
     protected UnitStatsPanel _unitPanel = new UnitStatsPanel();
     protected UnitsPanel _unitsPanel = new UnitsPanel(null, false);
@@ -65,6 +63,7 @@ public class UnitInfoPanel extends JPanel {
      *
      */
     protected class RepopulateAction implements ActionListener {
+
         public void actionPerformed(ActionEvent event) {
             populate();
         }

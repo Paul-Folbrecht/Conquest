@@ -1,19 +1,17 @@
 package com.osi.conquest.domain.impl.unit;
 
-
 import com.osi.conquest.domain.City;
 import com.osi.conquest.domain.ConquestFactory;
 import com.osi.conquest.domain.MapSquare;
 import com.osi.conquest.domain.Unit;
-
 import java.awt.*;
 import java.util.List;
-
 
 /**
  * @author Paul Folbrecht
  */
 public class Bomber extends AirUnit {
+
     /**
      *
      */
@@ -30,9 +28,9 @@ public class Bomber extends AirUnit {
         Unit unit = square.getUnit();
 
         if (city != null) {
-            return (city.getOwner() != getOwner());
+            return city.getOwner() != getOwner();
         } else {
-            return (unit != null && unit.getOwner() != getOwner());
+            return unit != null && unit.getOwner() != getOwner();
         }
     }
 
@@ -41,7 +39,13 @@ public class Bomber extends AirUnit {
      */
     public boolean attack(City city) {
         // Each time a city is attacked a new Infantry unit is constructed to represent it in combat.
-        boolean result = attack(ConquestFactory.createUnit("com.osi.conquest.domain.impl.unit.Infantry", city.getOwner(), city.getLocation()));
+        boolean result = attack(
+            ConquestFactory.createUnit(
+                "com.osi.conquest.domain.impl.unit.Infantry",
+                city.getOwner(),
+                city.getLocation()
+            )
+        );
 
         if (result) {
             // When a bomber defeats a city, a random unit, or the city's production, is destroyed.
@@ -54,7 +58,11 @@ public class Bomber extends AirUnit {
             } else {
                 Unit unit = (Unit) units.get(roll - 1);
                 unit.destroy();
-                getController().sendPlayerMessage("Host", getOwner(), "You destroyed a(n) " + unit.getUnitTypeData().getName() + ".");
+                getController().sendPlayerMessage(
+                    "Host",
+                    getOwner(),
+                    "You destroyed a(n) " + unit.getUnitTypeData().getName() + "."
+                );
             }
         }
 
@@ -65,6 +73,7 @@ public class Bomber extends AirUnit {
      *
      */
     public static class UnitTypeDataImpl extends AirUnit.UnitTypeDataImpl {
+
         public String getName() {
             return "Bomber";
         }

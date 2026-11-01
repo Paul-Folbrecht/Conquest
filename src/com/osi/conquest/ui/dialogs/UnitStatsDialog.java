@@ -1,23 +1,21 @@
 package com.osi.conquest.ui.dialogs;
 
-
 import com.osi.conquest.domain.Player;
 import com.osi.conquest.domain.impl.unit.UnitImpl;
 import com.osi.conquest.ui.renderers.UnitRenderer;
-
-import javax.swing.*;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-
+import javax.swing.*;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableColumn;
 
 /**
  * @author Paul Folbrecht
  */
 public class UnitStatsDialog extends JDialog {
+
     protected static int COLUMN_UNIT_TYPE = 0;
     protected static int COLUMN_IN_PRODUCTION = 1;
     protected static int COLUMN_IN_PLAY = 2;
@@ -55,9 +53,11 @@ public class UnitStatsDialog extends JDialog {
      */
     protected JComponent createTable() {
         JTable table = new JTable(new UnitStatsTableModel());
-        JScrollPane scroller = new JScrollPane(table,
-                JScrollPane.VERTICAL_SCROLLBAR_NEVER,
-                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        JScrollPane scroller = new JScrollPane(
+            table,
+            JScrollPane.VERTICAL_SCROLLBAR_NEVER,
+            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
+        );
 
         ((UnitStatsTableModel) table.getModel()).adjustColumnWidths(table);
         scroller.getViewport().setPreferredSize(table.getPreferredSize());
@@ -86,6 +86,7 @@ public class UnitStatsDialog extends JDialog {
      *
      */
     protected class OkHandler implements ActionListener {
+
         public void actionPerformed(ActionEvent event) {
             setVisible(false);
         }
@@ -95,6 +96,7 @@ public class UnitStatsDialog extends JDialog {
      *
      */
     protected class UnitStatsTableModel extends AbstractTableModel {
+
         protected List _unitClasses = UnitImpl.getClasses();
         protected ImageIcon[] _icons;
         protected String[] _columnNames;
@@ -155,20 +157,15 @@ public class UnitStatsDialog extends JDialog {
             if (column == COLUMN_UNIT_TYPE) {
                 return _icons[row];
             } else if (column == COLUMN_IN_PRODUCTION) {
-                return new Integer(_player.getUnitsInProduction((Class)
-                        _unitClasses.get(row)));
+                return new Integer(_player.getUnitsInProduction((Class) _unitClasses.get(row)));
             } else if (column == COLUMN_IN_PLAY) {
-                return new Integer(_player.getUnitsInPlay((Class)
-                        _unitClasses.get(row)));
+                return new Integer(_player.getUnitsInPlay((Class) _unitClasses.get(row)));
             } else if (column == COLUMN_KILLED) {
-                return new Integer(_player.getUnitsKilled((Class)
-                        _unitClasses.get(row)));
+                return new Integer(_player.getUnitsKilled((Class) _unitClasses.get(row)));
             } else if (column == COLUMN_LOST) {
-                return new Integer(_player.getUnitsLost((Class)
-                        _unitClasses.get(row)));
+                return new Integer(_player.getUnitsLost((Class) _unitClasses.get(row)));
             } else if (column == COLUMN_TIME_TILL_NEXT_DONE) {
-                return new Integer(_player.getTimeTillNextDone((Class)
-                        _unitClasses.get(row)));
+                return new Integer(_player.getTimeTillNextDone((Class) _unitClasses.get(row)));
             }
 
             return null;

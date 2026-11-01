@@ -1,23 +1,21 @@
 package com.osi.conquest.ui.panels;
 
-
 import com.osi.conquest.domain.ConquestFactory;
 import com.osi.conquest.domain.Unit;
 import com.osi.util.ui.dialogs.Validatable;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
-
+import javax.swing.*;
 
 /**
  * @author Paul Folbrecht
  */
 public class UnitsPanel extends JPanel implements Validatable {
+
     protected List _units;
     protected JList _listBox;
     protected JButton _okButton;
@@ -66,14 +64,12 @@ public class UnitsPanel extends JPanel implements Validatable {
     /**
      *
      */
-    public void onOk() {
-    }
+    public void onOk() {}
 
     /**
      *
      */
-    public void onCancel() {
-    }
+    public void onCancel() {}
 
     /**
      *
@@ -148,6 +144,7 @@ public class UnitsPanel extends JPanel implements Validatable {
      *
      */
     protected class MoveUpHandler implements ActionListener {
+
         public void actionPerformed(ActionEvent event) {
             int[] indeces = _listBox.getSelectedIndices();
 
@@ -170,6 +167,7 @@ public class UnitsPanel extends JPanel implements Validatable {
      *
      */
     protected class OkHandler implements ActionListener {
+
         public void actionPerformed(ActionEvent event) {
             setVisible(false);
             int[] indeces = _listBox.getSelectedIndices();
@@ -189,6 +187,7 @@ public class UnitsPanel extends JPanel implements Validatable {
      *
      */
     protected class ClearOrdersHandler implements ActionListener {
+
         public void actionPerformed(ActionEvent event) {
             int[] indeces = _listBox.getSelectedIndices();
             JDialog parent = (JDialog) SwingUtilities.getAncestorOfClass(JDialog.class, UnitsPanel.this);
@@ -208,6 +207,7 @@ public class UnitsPanel extends JPanel implements Validatable {
      *
      */
     protected class MouseHandler extends MouseAdapter {
+
         public void mouseClicked(MouseEvent event) {
             if (!_readOnly) {
                 if (event.getClickCount() == 2) {

@@ -1,18 +1,16 @@
 package com.osi.conquest.ui;
 
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
-
+import javax.swing.*;
 
 /**
  * @author Paul Folbrecht
  */
 public class ConquestMenuBar extends JMenuBar {
-    protected MainWindow _parent;
 
+    protected MainWindow _parent;
 
     /**
      *
@@ -49,14 +47,12 @@ public class ConquestMenuBar extends JMenuBar {
 
         item = new JMenuItem("Open...", 'o');
         item.addActionListener(_parent.getActionListener("File.Open"));
-        item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O,
-                InputEvent.CTRL_DOWN_MASK));
+        item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK));
         menu.add(item);
 
         item = new JMenuItem("Save", 's');
         item.addActionListener(_parent.getActionListener("File.Save"));
-        item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
-                InputEvent.CTRL_DOWN_MASK));
+        item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK));
         menu.add(item);
 
         item = new JMenuItem("Save As...", 'v');
@@ -75,8 +71,7 @@ public class ConquestMenuBar extends JMenuBar {
         menu.add(new JSeparator());
         item = new JMenuItem("Exit", 'x');
         item.addActionListener(_parent.getActionListener("File.Exit"));
-        item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X,
-                InputEvent.CTRL_DOWN_MASK));
+        item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_DOWN_MASK));
         menu.add(item);
     }
 
@@ -206,14 +201,12 @@ public class ConquestMenuBar extends JMenuBar {
 
         item = new JMenuItem("Units...", 'u');
         item.addActionListener(_parent.getActionListener("Reports.Units"));
-        item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_U,
-                InputEvent.CTRL_DOWN_MASK));
+        item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_U, InputEvent.CTRL_DOWN_MASK));
         menu.add(item);
 
         item = new JMenuItem("Cities...", 'c');
         item.addActionListener(_parent.getActionListener("Reports.Cities"));
-        item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C,
-                InputEvent.CTRL_DOWN_MASK));
+        item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_DOWN_MASK));
         menu.add(item);
     }
 
@@ -262,4 +255,3 @@ public class ConquestMenuBar extends JMenuBar {
         menu.add(item);
     }
 }
-

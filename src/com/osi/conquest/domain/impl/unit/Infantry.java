@@ -1,10 +1,10 @@
 package com.osi.conquest.domain.impl.unit;
 
-
 /**
  * @author Paul Folbrecht
  */
 public class Infantry extends LandUnit {
+
     /**
      *
      */
@@ -16,6 +16,7 @@ public class Infantry extends LandUnit {
      *
      */
     public static class UnitTypeDataImpl extends LandUnit.UnitTypeDataImpl {
+
         public String getName() {
             return "Infantry";
         }

@@ -1,17 +1,15 @@
 package com.osi.util;
 
-
 import com.osi.conquest.Logger;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.*;
-
 
 /**
  * @author Paul Folbrecht
  */
 public class ObjectTracer {
+
     private static List tracers = new ArrayList();
 
     /**
@@ -70,8 +68,9 @@ public class ObjectTracer {
      *
      */
     private static class PrimitiveTracer implements Tracer {
+
         public boolean canHandle(Class clazz) {
-            return (clazz.isPrimitive() || clazz.getName().startsWith("java.lang."));
+            return clazz.isPrimitive() || clazz.getName().startsWith("java.lang.");
         }
 
         public void trace(Object object, StringBuffer buffer, int indent) {
@@ -83,14 +82,14 @@ public class ObjectTracer {
      *
      */
     private abstract static class ComplexObjectTracer implements Tracer {
+
         protected void indent(StringBuffer buffer, int indent) {
             for (int index = 0; index < indent; index++) {
                 buffer.append("  ");
             }
         }
 
-        protected void traceImpl(String name, Object object, StringBuffer buffer,
-                                 int indent, boolean isLast) {
+        protected void traceImpl(String name, Object object, StringBuffer buffer, int indent, boolean isLast) {
             indent(buffer, indent);
             buffer.append(name);
 
@@ -111,6 +110,7 @@ public class ObjectTracer {
      *
      */
     private static class ObjectArrayTracer extends ComplexObjectTracer {
+
         public boolean canHandle(Class clazz) {
             return Object[].class.isAssignableFrom(clazz);
         }
@@ -130,6 +130,7 @@ public class ObjectTracer {
      *
      */
     private static class CollectionTracer extends ComplexObjectTracer {
+
         public boolean canHandle(Class clazz) {
             return Collection.class.isAssignableFrom(clazz);
         }
@@ -150,6 +151,7 @@ public class ObjectTracer {
      *
      */
     private static class MapTracer extends ComplexObjectTracer {
+
         public boolean canHandle(Class clazz) {
             return Map.class.isAssignableFrom(clazz);
         }
@@ -170,6 +172,7 @@ public class ObjectTracer {
      *
      */
     private static class CustomTracer extends ComplexObjectTracer {
+
         public boolean canHandle(Class clazz) {
             return true;
         }

@@ -1,9 +1,7 @@
 package com.osi.util;
 
-
 import java.io.IOException;
 import java.net.Socket;
-
 
 /**
  * Utility class to safely open a socket.  The Java Socket API has a big
@@ -14,6 +12,7 @@ import java.net.Socket;
  * @author Paul Folbrecht
  */
 public class SocketOpener implements Runnable {
+
     protected String _host;
     protected int _port;
     protected Socket _socket;

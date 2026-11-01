@@ -1,9 +1,7 @@
 package com.osi.conquest.domain;
 
-
 import java.awt.*;
 import java.util.List;
-
 
 /**
  * @author Paul Folbrecht

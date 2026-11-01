@@ -1,19 +1,17 @@
 package com.osi.util.ui.panels;
 
-
 import com.osi.util.Endpoint;
 import com.osi.util.ui.NumericTextField;
 import com.osi.util.ui.dialogs.Validatable;
-
-import javax.swing.*;
 import java.awt.*;
 import java.net.InetAddress;
-
+import javax.swing.*;
 
 /**
  * @author Paul Folbrecht
  */
 public class TCPPanel extends JPanel implements Validatable {
+
     protected JTextField[] _tcpAddress;
     protected JTextField _port;
     protected JLabel _addressLabel;
@@ -37,8 +35,7 @@ public class TCPPanel extends JPanel implements Validatable {
             }
         }
 
-        endpoint = new Endpoint(InetAddress.getByName(address.toString()),
-                Integer.parseInt(_port.getText()));
+        endpoint = new Endpoint(InetAddress.getByName(address.toString()), Integer.parseInt(_port.getText()));
 
         return endpoint;
     }
@@ -46,8 +43,7 @@ public class TCPPanel extends JPanel implements Validatable {
     /**
      * Validatable implementation.
      */
-    public void onAdded() {
-    }
+    public void onAdded() {}
 
     /**
      *
@@ -89,14 +85,12 @@ public class TCPPanel extends JPanel implements Validatable {
     /**
      *
      */
-    public void onOk() {
-    }
+    public void onOk() {}
 
     /**
      *
      */
-    public void onCancel() {
-    }
+    public void onCancel() {}
 
     /**
      *
@@ -110,8 +104,12 @@ public class TCPPanel extends JPanel implements Validatable {
      */
     protected void init() {
         setLayout(new GridLayout(1, 2));
-        setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("Host Address"),
-                BorderFactory.createRaisedBevelBorder()));
+        setBorder(
+            BorderFactory.createCompoundBorder(
+                BorderFactory.createTitledBorder("Host Address"),
+                BorderFactory.createRaisedBevelBorder()
+            )
+        );
         add(createAddressPanel());
         add(createPortPanel());
         setEnabled(false);

@@ -1,6 +1,5 @@
 package com.osi.conquest.ui;
 
-
 import com.osi.conquest.ConquestException;
 import com.osi.conquest.Logger;
 import com.osi.conquest.domain.*;
@@ -9,22 +8,21 @@ import com.osi.conquest.ui.event.GameListener;
 import com.osi.conquest.ui.event.ModelChangeListener;
 import com.osi.util.ImageUtils;
 import com.osi.util.ui.DoubleBufferedCanvas;
-
+import java.awt.*;
+import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
-import java.awt.*;
-import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.List;
-
 
 /**
  * @author Paul Folbrecht
  */
 public class MainCanvas extends DoubleBufferedCanvas implements GameListener, ModelChangeListener {
+
     public static final int STATE_NORMAL = 0;
     public static final int STATE_PRODUCTION = 1;
     public static final int STATE_SET_PATROL = 2;
@@ -96,7 +94,7 @@ public class MainCanvas extends DoubleBufferedCanvas implements GameListener, Mo
      *
      */
     public boolean isMoveInProgress() {
-        return ((_flags & MOVE_IN_PROGRESS) != 0);
+        return (_flags & MOVE_IN_PROGRESS) != 0;
     }
 
     /**
@@ -182,17 +180,17 @@ public class MainCanvas extends DoubleBufferedCanvas implements GameListener, Mo
         point.y *= MapSquare.HEIGHT;
 
         if (!parent.getViewRect().contains(point)) {
-            point.x = (int) (point.x - (size.getWidth() / 2));
-            point.y = (int) (point.y - (size.getHeight() / 2));
+            point.x = (int) (point.x - size.getWidth() / 2);
+            point.y = (int) (point.y - size.getHeight() / 2);
 
             if (point.x < 0) {
                 point.x = 0;
-            } else if (point.x > (getSize().getWidth() - size.getWidth())) {
+            } else if (point.x > getSize().getWidth() - size.getWidth()) {
                 point.x = (int) (getSize().getWidth() - size.getWidth());
             }
             if (point.y < 0) {
                 point.y = 0;
-            } else if (point.y > (getSize().getHeight() - size.getHeight())) {
+            } else if (point.y > getSize().getHeight() - size.getHeight()) {
                 point.y = (int) (getSize().getHeight() - size.getHeight());
             }
 
@@ -230,8 +228,12 @@ public class MainCanvas extends DoubleBufferedCanvas implements GameListener, Mo
      *
      */
     public Rectangle toDisplay(Rectangle area) {
-        return new Rectangle(area.x * MapSquare.WIDTH, area.y * MapSquare.HEIGHT,
-                area.width * MapSquare.WIDTH, area.height * MapSquare.HEIGHT);
+        return new Rectangle(
+            area.x * MapSquare.WIDTH,
+            area.y * MapSquare.HEIGHT,
+            area.width * MapSquare.WIDTH,
+            area.height * MapSquare.HEIGHT
+        );
     }
 
     /**
@@ -245,8 +247,10 @@ public class MainCanvas extends DoubleBufferedCanvas implements GameListener, Mo
      *
      */
     public void onPlayerActivated() {
-        javax.swing.JOptionPane.showMessageDialog(_mainWindow,
-                getController().getCurrentPlayer().toString() + " , click to begin your turn.");
+        javax.swing.JOptionPane.showMessageDialog(
+            _mainWindow,
+            getController().getCurrentPlayer().toString() + " , click to begin your turn."
+        );
         setState(STATE_NORMAL);
         unsetBlankScreen();
     }
@@ -346,7 +350,10 @@ public class MainCanvas extends DoubleBufferedCanvas implements GameListener, Mo
         String text = null;
 
         if (_moveFromSquare != null && _moveToSquare != null) {
-            return "Range: " + getController().getMap().getRange(_moveFromSquare.getLocation(), _moveToSquare.getLocation());
+            return (
+                "Range: " +
+                getController().getMap().getRange(_moveFromSquare.getLocation(), _moveToSquare.getLocation())
+            );
         }
 
         return text;
@@ -367,7 +374,7 @@ public class MainCanvas extends DoubleBufferedCanvas implements GameListener, Mo
      *
      */
     protected boolean inHandicappedMode() {
-        return (_mainWindow.getState() != MainWindow.STATE_NORMAL);
+        return _mainWindow.getState() != MainWindow.STATE_NORMAL;
     }
 
     /**
@@ -395,8 +402,9 @@ public class MainCanvas extends DoubleBufferedCanvas implements GameListener, Mo
      *
      */
     protected void setMoveCursor(Unit unit, Point location) {
-        if (unit.canIntentionallyAttack(_moveToSquare.getLocation()) && unit.isAdjacentTo(location))
-            _mainWindow.setCursor(_combatCursor);
+        if (
+            unit.canIntentionallyAttack(_moveToSquare.getLocation()) && unit.isAdjacentTo(location)
+        ) _mainWindow.setCursor(_combatCursor);
         else if (unit.canMoveTo(_moveToSquare.getLocation())) _mainWindow.setCursor(_moveToCursor);
         else _mainWindow.setCursor(_noMoveToCursor);
     }
@@ -493,6 +501,7 @@ public class MainCanvas extends DoubleBufferedCanvas implements GameListener, Mo
      *
      */
     protected class FlashUnitAction implements ActionListener {
+
         protected boolean _unitDisplayed = false;
 
         public void actionPerformed(ActionEvent event) {
@@ -503,8 +512,14 @@ public class MainCanvas extends DoubleBufferedCanvas implements GameListener, Mo
                 if (_unitDisplayed) {
                     MapSquare square = getController().getMap().getSquareAt(unit.getLocation());
 
-                    if (unit.isInTransport(square) && square.getUnit() != null) square.getUnit().getRenderer().render(getBufferGraphics());
-                    else if (square.getHiddenUnit() != null) square.getHiddenUnit().getRenderer().render(getBufferGraphics());
+                    if (unit.isInTransport(square) && square.getUnit() != null) square
+                        .getUnit()
+                        .getRenderer()
+                        .render(getBufferGraphics());
+                    else if (square.getHiddenUnit() != null) square
+                        .getHiddenUnit()
+                        .getRenderer()
+                        .render(getBufferGraphics());
                     else square.getRenderer().render(getBufferGraphics(), false);
                 } else unit.getRenderer().render(getBufferGraphics());
 
@@ -520,6 +535,7 @@ public class MainCanvas extends DoubleBufferedCanvas implements GameListener, Mo
      *
      */
     protected class RefreshWindowWorker implements ActionListener {
+
         public void actionPerformed(ActionEvent event) {
             addDirtyRect(new Rectangle(new Point(0, 0), getSize()));
             draw();
@@ -530,6 +546,7 @@ public class MainCanvas extends DoubleBufferedCanvas implements GameListener, Mo
      *
      */
     protected class MouseHandler extends MouseAdapter {
+
         public void mousePressed(MouseEvent event) {
             if (!MainWindow.getInstance().isGameInProgress() || inHandicappedMode()) return;
 
@@ -570,7 +587,7 @@ public class MainCanvas extends DoubleBufferedCanvas implements GameListener, Mo
                 }
             }
 
-            _flags = (_flags & ~MOVE_IN_PROGRESS);
+            _flags = _flags & ~MOVE_IN_PROGRESS;
             _moveFromSquare = _moveToSquare = null;
             _mainWindow.updateStatusBar();
         }
@@ -580,7 +597,7 @@ public class MainCanvas extends DoubleBufferedCanvas implements GameListener, Mo
 
             // Right-click cancels MoveTo or Patrol.
             if (isMoveInProgress()) {
-                _flags = (_flags & ~MOVE_IN_PROGRESS);
+                _flags = _flags & ~MOVE_IN_PROGRESS;
                 _moveFromSquare = _moveToSquare = null;
             } else if (getState() == STATE_SET_PATROL) {
                 Unit unit = getController().getSelectedUnit();
@@ -604,7 +621,11 @@ public class MainCanvas extends DoubleBufferedCanvas implements GameListener, Mo
             if (unit == null || square.getLocation().equals(unit.getLocation()) || !isMoveInProgress()) return;
 
             if (unit.isAdjacentTo(square.getLocation())) {
-                if (unit.canAttack(square.getLocation())) unitDead = !getController().combat(getBufferGraphics(), unit, square.getLocation());
+                if (unit.canAttack(square.getLocation())) unitDead = !getController().combat(
+                    getBufferGraphics(),
+                    unit,
+                    square.getLocation()
+                );
 
                 // Move whether or not we just attacked something.
                 if (unit.canMoveTo(square.getLocation()) && !unitDead) handleAdjacentMove(unit, square);
@@ -618,9 +639,11 @@ public class MainCanvas extends DoubleBufferedCanvas implements GameListener, Mo
 
             if (result.getDetail() == Unit.MoveToReturn.FAILED_FULL_TRANSPORT) {
                 JOptionPane.showMessageDialog(
-                        _mainWindow,
-                        "There's not enough room on the transport.", "Error",
-                        JOptionPane.ERROR_MESSAGE);
+                    _mainWindow,
+                    "There's not enough room on the transport.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+                );
             }
         }
 
@@ -638,7 +661,12 @@ public class MainCanvas extends DoubleBufferedCanvas implements GameListener, Mo
                 unit.setMovePath(path);
                 unit.executeMoveTo();
             } else {
-                JOptionPane.showMessageDialog(_mainWindow, "Cannot find a path to that location.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(
+                    _mainWindow,
+                    "Cannot find a path to that location.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+                );
             }
         }
 
@@ -656,7 +684,12 @@ public class MainCanvas extends DoubleBufferedCanvas implements GameListener, Mo
             if (path.calculatePath(false)) {
                 if (!unit.hasMoveTo()) unit.setMovePath(path);
                 else unit.getPath().add(path);
-            } else JOptionPane.showMessageDialog(_mainWindow, "Cannot find a path to that location.", "Error", JOptionPane.ERROR_MESSAGE);
+            } else JOptionPane.showMessageDialog(
+                _mainWindow,
+                "Cannot find a path to that location.",
+                "Error",
+                JOptionPane.ERROR_MESSAGE
+            );
 
             // Check if this square is the unit's current square- if so, the Patrol is
             // complete.
@@ -679,11 +712,19 @@ public class MainCanvas extends DoubleBufferedCanvas implements GameListener, Mo
         protected void mouseUpInAutoForwardSetup(MapSquare square) {
             // Make a UnitPath from the autoforward city to the clicked square.
             // If it's legal, set it as the city's autoforward path.
-            UnitPath path = ConquestFactory.createUnitPath(_autoForwardCity.getLocation(), square.getLocation(), _autoForwardUnit);
+            UnitPath path = ConquestFactory.createUnitPath(
+                _autoForwardCity.getLocation(),
+                square.getLocation(),
+                _autoForwardUnit
+            );
 
             if (path.calculatePath(false)) _autoForwardCity.setAutoForwardPath(path);
-            else JOptionPane.showMessageDialog(_mainWindow,
-                        "Cannot find a path to that location.", "Error", JOptionPane.ERROR_MESSAGE);
+            else JOptionPane.showMessageDialog(
+                _mainWindow,
+                "Cannot find a path to that location.",
+                "Error",
+                JOptionPane.ERROR_MESSAGE
+            );
 
             _autoForwardCity = null;
             _autoForwardUnit = null;
@@ -701,9 +742,12 @@ public class MainCanvas extends DoubleBufferedCanvas implements GameListener, Mo
 
                     if (square != null) {
                         if (square.getUnit() != null && getState() == STATE_NORMAL) {
-                            if (square.getUnit().getOwner() == player) getController().setSelectedUnit(square.getUnit());
-                        } else if (square.getCity() != null &&
-                                square.getCity().getOwner() == player && !inHandicappedMode()) {
+                            if (square.getUnit().getOwner() == player) getController().setSelectedUnit(
+                                square.getUnit()
+                            );
+                        } else if (
+                            square.getCity() != null && square.getCity().getOwner() == player && !inHandicappedMode()
+                        ) {
                             _mainWindow.showCityDialog(player, square.getCity(), false);
                         }
                     }
@@ -744,6 +788,7 @@ public class MainCanvas extends DoubleBufferedCanvas implements GameListener, Mo
      *
      */
     protected class PopupMenuHandler implements PopupMenuListener {
+
         public void popupMenuWillBecomeVisible(PopupMenuEvent event) {
             _flashUnit = false;
             if (getController().getSelectedUnit() != null) {
@@ -755,6 +800,7 @@ public class MainCanvas extends DoubleBufferedCanvas implements GameListener, Mo
 
         public void popupMenuWillBecomeInvisible(PopupMenuEvent event) {
             class ResetPopupTargetWorker implements Runnable {
+
                 public void run() {
                     MainWindow.getInstance().setPopupTarget((Unit) null);
                 }
@@ -775,6 +821,7 @@ public class MainCanvas extends DoubleBufferedCanvas implements GameListener, Mo
      *
      */
     protected class MouseMotionHandler extends MouseMotionAdapter {
+
         public void mouseMoved(MouseEvent event) {
             if (!MainWindow.getInstance().isGameInProgress()) return;
 
@@ -783,11 +830,15 @@ public class MainCanvas extends DoubleBufferedCanvas implements GameListener, Mo
 
             _unitUnderMouse = null;
             if (_squareUnderMouse != null) {
-                if (_squareUnderMouse.getUnit() != null && _squareUnderMouse.
-                        getUnit().getOwner() == getController().getCurrentPlayer()) {
+                if (
+                    _squareUnderMouse.getUnit() != null &&
+                    _squareUnderMouse.getUnit().getOwner() == getController().getCurrentPlayer()
+                ) {
                     _unitUnderMouse = _squareUnderMouse.getUnit();
-                } else if (_squareUnderMouse.getCity() != null && _squareUnderMouse.
-                        getCity().getOwner() == getController().getCurrentPlayer()) {
+                } else if (
+                    _squareUnderMouse.getCity() != null &&
+                    _squareUnderMouse.getCity().getOwner() == getController().getCurrentPlayer()
+                ) {
                     _unitUnderMouse = _squareUnderMouse.getCity().getProductionRepresentation();
                 }
             }
@@ -839,6 +890,7 @@ public class MainCanvas extends DoubleBufferedCanvas implements GameListener, Mo
      *
      */
     protected class ComponentHandler extends ComponentAdapter {
+
         public void componentResized(ComponentEvent event) {
             broadcastOnScrolled(((JViewport) getParent()).getViewPosition());
         }
@@ -852,6 +904,7 @@ public class MainCanvas extends DoubleBufferedCanvas implements GameListener, Mo
      *
      */
     protected class ViewportChangeHandler implements ChangeListener {
+
         public void stateChanged(ChangeEvent event) {
             broadcastOnScrolled(((JViewport) getParent()).getViewPosition());
             if (!_blankScreen) {

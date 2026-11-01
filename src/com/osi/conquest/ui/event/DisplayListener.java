@@ -1,8 +1,6 @@
 package com.osi.conquest.ui.event;
 
-
 import java.awt.*;
-
 
 /**
  * @author Paul Folbrecht

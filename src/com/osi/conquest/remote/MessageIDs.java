@@ -1,10 +1,10 @@
 package com.osi.conquest.remote;
 
-
 /**
  * @author Paul Folbrecht
  */
 public class MessageIDs {
+
     // Client to host messages.
     public static final int NEXT_PLAYER = 0;
     public static final int PLAYER_ELIMINATED = 1;
@@ -21,6 +21,6 @@ public class MessageIDs {
     public static final int YOU_ELIMINATED = 105;
 
     public static boolean isLastMessage(int id) {
-        return (id == PLAYER_QUITTING || id == HOST_QUITTING || id == YOU_ELIMINATED);
+        return id == PLAYER_QUITTING || id == HOST_QUITTING || id == YOU_ELIMINATED;
     }
 }

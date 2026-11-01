@@ -1,18 +1,16 @@
 package com.osi.conquest.domain.impl;
 
-
 import com.osi.conquest.domain.*;
 import com.osi.conquest.domain.impl.unit.UnitImpl;
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-
 
 /**
  * @author Paul Folbrecht
  */
 public class CityImpl implements City {
+
     private static final long serialVersionUID = 1L;
     protected List _units = new ArrayList();
     protected int _turnsTillCompletion;
@@ -31,8 +29,16 @@ public class CityImpl implements City {
     public CityImpl(Point location, String name) {
         _location = location;
         _name = name;
-        _sightRepresentation = ConquestFactory.createUnit("com.osi.conquest.domain.impl.unit.Infantry", _owner, getLocation());
-        _productionRepresentation = ConquestFactory.createUnit("com.osi.conquest.domain.impl.unit.Infantry", _owner, getLocation());
+        _sightRepresentation = ConquestFactory.createUnit(
+            "com.osi.conquest.domain.impl.unit.Infantry",
+            _owner,
+            getLocation()
+        );
+        _productionRepresentation = ConquestFactory.createUnit(
+            "com.osi.conquest.domain.impl.unit.Infantry",
+            _owner,
+            getLocation()
+        );
     }
 
     /**
@@ -72,7 +78,7 @@ public class CityImpl implements City {
      *
      */
     public boolean isUnitPresent(Unit unit) {
-        return (_units.indexOf(unit) != -1);
+        return _units.indexOf(unit) != -1;
     }
 
     /**
@@ -136,8 +142,7 @@ public class CityImpl implements City {
 
         try {
             if (getAutoForwardPath() != null) unit.setMovePath((UnitPath) getAutoForwardPath().clone());
-        } catch (CloneNotSupportedException e) {
-        }
+        } catch (CloneNotSupportedException e) {}
 
         return unit;
     }
@@ -175,7 +180,11 @@ public class CityImpl implements City {
      */
     public void setOwner(Player owner) {
         _owner = owner;
-        _sightRepresentation = ConquestFactory.createUnit("com.osi.conquest.domain.impl.unit.Infantry", _owner, getLocation());
+        _sightRepresentation = ConquestFactory.createUnit(
+            "com.osi.conquest.domain.impl.unit.Infantry",
+            _owner,
+            getLocation()
+        );
         setProduction(com.osi.conquest.domain.impl.unit.Infantry.class);
         resetProduction();
 
@@ -209,7 +218,10 @@ public class CityImpl implements City {
      */
     public void setProduction(Class unitType) {
         if (getOwner() != null) {
-            if (_productionRepresentation != null) getOwner().updateUnitsInProduction(_productionRepresentation.getClass(), -1);
+            if (_productionRepresentation != null) getOwner().updateUnitsInProduction(
+                _productionRepresentation.getClass(),
+                -1
+            );
             getOwner().updateUnitsInProduction(unitType, 1);
         }
 

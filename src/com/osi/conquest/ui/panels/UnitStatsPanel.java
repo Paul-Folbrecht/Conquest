@@ -1,18 +1,16 @@
 package com.osi.conquest.ui.panels;
 
-
 import com.osi.conquest.domain.Unit;
-
+import java.awt.*;
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.AbstractTableModel;
-import java.awt.*;
-
 
 /**
  * @author Paul Folbrecht
  */
 public class UnitStatsPanel extends JPanel {
+
     protected Unit _unit;
     protected JTable _table;
     protected UnitStatsTableModel _model;
@@ -59,8 +57,11 @@ public class UnitStatsPanel extends JPanel {
     protected JComponent createTable() {
         _model = new UnitStatsTableModel();
         _table = new JTable(_model);
-        JScrollPane scroller = new JScrollPane(_table, JScrollPane.VERTICAL_SCROLLBAR_NEVER,
-                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        JScrollPane scroller = new JScrollPane(
+            _table,
+            JScrollPane.VERTICAL_SCROLLBAR_NEVER,
+            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
+        );
 
         _table.setTableHeader(null);
         scroller.getViewport().setPreferredSize(_table.getPreferredSize());
@@ -72,6 +73,7 @@ public class UnitStatsPanel extends JPanel {
      *
      */
     protected class UnitStatsTableModel extends AbstractTableModel {
+
         private static final int COLS = 2;
         private static final int NAME_COLUMN = 0;
         private static final int DATA_COLUMN = 1;

@@ -1,16 +1,15 @@
 package com.osi.conquest.domain.impl;
 
-
 import com.osi.conquest.ConquestException;
 import com.osi.conquest.domain.Player;
 import com.osi.conquest.remote.client.ClientRemoteCommunicator;
 import com.osi.conquest.ui.MainWindow;
 
-
 /**
  * @author Paul Folbrecht
  */
 public class ClientGameController extends GameControllerImpl {
+
     /**
      *
      */
@@ -52,7 +51,7 @@ public class ClientGameController extends GameControllerImpl {
     /**
      *
      */
-/*  public void removePlayer( Player player ) {
+    /*  public void removePlayer( Player player ) {
     Player currentPlayer = getCurrentPlayer();
 
     super.removePlayer( player );

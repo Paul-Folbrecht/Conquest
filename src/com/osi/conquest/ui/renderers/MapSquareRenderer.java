@@ -1,6 +1,5 @@
 package com.osi.conquest.ui.renderers;
 
-
 import com.osi.conquest.ConquestException;
 import com.osi.conquest.ConquestRuntimeException;
 import com.osi.conquest.Logger;
@@ -9,16 +8,14 @@ import com.osi.conquest.domain.*;
 import com.osi.conquest.domain.impl.mapsquare.*;
 import com.osi.conquest.ui.MainWindow;
 import com.osi.util.StringUtils;
-
-
 import java.awt.*;
 import java.util.HashMap;
-
 
 /**
  * @author Paul Folbrecht
  */
 public class MapSquareRenderer implements MapSquare.Renderer {
+
     public static final int THUMBNAIL_SQUARE_WIDTH = 2;
     public static final int THUMBNAIL_SQUARE_HEIGHT = 2;
 
@@ -114,17 +111,23 @@ public class MapSquareRenderer implements MapSquare.Renderer {
         if (_square.getCity() == null) {
             Player player = getController().getCurrentPlayer();
 
-if (_square.getUnit() != null && _square.getUnit().getOwner() != player) {
-    Logger.info("Unit at " + _square + ": " + _square.getUnit().toString());
-    player.dump();
-    Logger.info("player.isObjectSighted(): " + player.isObjectSighted(_square.getUnit(), _square.getLocation()));
-}
-            if (_square.getUnit() != null && (_square.getUnit().getOwner() == player || MainWindow.getInstance().getState() == MainWindow.STATE_PLAYING_MOVEMENT_REPORTS)) {
+            if (_square.getUnit() != null && _square.getUnit().getOwner() != player) {
+                Logger.info("Unit at " + _square + ": " + _square.getUnit().toString());
+                player.dump();
+                Logger.info(
+                    "player.isObjectSighted(): " + player.isObjectSighted(_square.getUnit(), _square.getLocation())
+                );
+            }
+            if (
+                _square.getUnit() != null &&
+                (_square.getUnit().getOwner() == player ||
+                    MainWindow.getInstance().getState() == MainWindow.STATE_PLAYING_MOVEMENT_REPORTS)
+            ) {
                 _square.getUnit().getRenderer().render(graphics);
             } else if (_square.getUnit() != null && player.isObjectSighted(_square.getUnit(), _square.getLocation())) {
-// This is getting hit when a unit was previously visible but is no longer, because Player._lastSightedObjects is not cleared between turns.
-// In addition to tracking what was once visible (_lastSightedObjects), there needs to be a turn-initted data structure of whether any unit at
-// x, y is presently sighted by any unit of the current player.
+                // This is getting hit when a unit was previously visible but is no longer, because Player._lastSightedObjects is not cleared between turns.
+                // In addition to tracking what was once visible (_lastSightedObjects), there needs to be a turn-initted data structure of whether any unit at
+                // x, y is presently sighted by any unit of the current player.
                 _square.getUnit().getRenderer().render(graphics);
             } else {
                 Unit unit = (Unit) player.getLastSightedObject(_square.getLocation());
@@ -138,8 +141,12 @@ if (_square.getUnit() != null && _square.getUnit().getOwner() != player) {
      */
     protected void renderHighlight(Graphics2D graphics) {
         if (_isHighlighted) {
-            Rectangle rect = new Rectangle(_square.getLocation().x * MapSquare.WIDTH,
-                    _square.getLocation().y * MapSquare.HEIGHT, MapSquare.WIDTH - 1, MapSquare.HEIGHT - 1);
+            Rectangle rect = new Rectangle(
+                _square.getLocation().x * MapSquare.WIDTH,
+                _square.getLocation().y * MapSquare.HEIGHT,
+                MapSquare.WIDTH - 1,
+                MapSquare.HEIGHT - 1
+            );
 
             graphics.setPaint(Color.white);
             graphics.setStroke(new BasicStroke(1));

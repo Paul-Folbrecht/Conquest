@@ -1,20 +1,18 @@
 package com.osi.conquest.domain;
 
-
 import com.osi.conquest.domain.event.UnitActionListener;
 import com.osi.conquest.domain.impl.GameControllerImpl;
 import com.osi.conquest.ui.MainWindow;
-
 import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * @author Paul Folbrecht
  */
 public class MovementReport implements UnitActionListener, Serializable {
+
     protected OwnableObject _watcher;
     protected Point _startLocation;
     protected Unit _watched;
@@ -96,11 +94,16 @@ public class MovementReport implements UnitActionListener, Serializable {
                     // of them ends.
                     int sharedPathIndex = 0;
                     while (true) {
-                        if (sharedPathIndex + index >= _events.size() ||
-                                sharedPathIndex + index2 >= other._events.size()) {
+                        if (
+                            sharedPathIndex + index >= _events.size() ||
+                            sharedPathIndex + index2 >= other._events.size()
+                        ) {
                             // We went completely through one Report- we have an overlap.
                             return true;
-                        } else if (_events.get(sharedPathIndex + index).equals(other._events.get(sharedPathIndex + index2)) == false) {
+                        } else if (
+                            _events.get(sharedPathIndex + index).equals(other._events.get(sharedPathIndex + index2)) ==
+                            false
+                        ) {
                             return false;
                         }
 
@@ -202,8 +205,7 @@ public class MovementReport implements UnitActionListener, Serializable {
     private void pause() {
         try {
             Thread.currentThread().sleep(500);
-        } catch (InterruptedException e) {
-        }
+        } catch (InterruptedException e) {}
     }
 
     /**
@@ -217,10 +219,11 @@ public class MovementReport implements UnitActionListener, Serializable {
      *
      */
     private abstract class UnitEvent implements Serializable {
+
         public abstract Point show();
 
         protected boolean equals(Point one, Point two) {
-            return (one.x == two.x && one.y == two.y);
+            return one.x == two.x && one.y == two.y;
         }
     }
 
@@ -228,6 +231,7 @@ public class MovementReport implements UnitActionListener, Serializable {
      *
      */
     private class MoveEvent extends UnitEvent {
+
         private Unit _unit;
         private Point _start;
         private Point _end;
@@ -243,7 +247,7 @@ public class MovementReport implements UnitActionListener, Serializable {
                 return false;
             }
             MoveEvent other = (MoveEvent) object;
-            return (equals(_start, other._start) && equals(_end, other._end));
+            return equals(_start, other._start) && equals(_end, other._end);
         }
 
         public Point show() {
@@ -256,6 +260,7 @@ public class MovementReport implements UnitActionListener, Serializable {
      *
      */
     private class CombatEvent extends UnitEvent {
+
         private Unit _unit;
         private OwnableObject _opponent;
         private boolean _watchedWon;
@@ -271,7 +276,7 @@ public class MovementReport implements UnitActionListener, Serializable {
                 return false;
             }
             CombatEvent other = (CombatEvent) object;
-            return (other._opponent.equals(_opponent) && other._watchedWon == _watchedWon);
+            return other._opponent.equals(_opponent) && other._watchedWon == _watchedWon;
         }
 
         public Point show() {

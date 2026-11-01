@@ -1,19 +1,17 @@
 package com.osi.conquest.domain.impl.unit;
 
-
 import com.osi.conquest.domain.City;
 import com.osi.conquest.domain.MapSquare;
 import com.osi.conquest.domain.Unit;
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
-
 
 /**
  * @author Paul Folbrecht
  */
 public class TroopTransport extends SeaTransport {
+
     public static final int MAX_UNIT_WEIGHT = 8;
     private static final long serialVersionUID = 1L;
 
@@ -35,7 +33,7 @@ public class TroopTransport extends SeaTransport {
      *
      */
     public boolean canTransport(Unit unit) {
-        return (unit instanceof LandUnit);
+        return unit instanceof LandUnit;
     }
 
     /**
@@ -94,6 +92,7 @@ public class TroopTransport extends SeaTransport {
      *
      */
     public static class UnitTypeDataImpl extends SeaUnit.UnitTypeDataImpl {
+
         public String getName() {
             return "Troop Transport";
         }

@@ -1,6 +1,5 @@
 package com.osi.conquest.ui;
 
-
 import com.osi.conquest.ConquestException;
 import com.osi.conquest.ConquestRuntimeException;
 import com.osi.conquest.Logger;
@@ -17,10 +16,6 @@ import com.osi.conquest.ui.panels.UnitsPanel;
 import com.osi.util.ui.dialogs.DialogUtils;
 import com.osi.util.ui.dialogs.PanelWrapperDialog;
 import com.osi.util.ui.panels.ThreadProgressPanel;
-
-import javax.swing.*;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,12 +25,15 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
+import javax.swing.*;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 
 /**
  * @author Paul Folbrecht
  */
 public class MainWindow extends JFrame implements ModelChangeListener {
+
     public static final int STATE_NORMAL = 5;
     public static final int STATE_WAITING_FOR_HOST_CONNECT = 6;
     public static final int STATE_WAITING_FOR_CONNECTIONS = 7;
@@ -216,8 +214,7 @@ public class MainWindow extends JFrame implements ModelChangeListener {
             if (map.getSize() == null) {
                 Thread thread = map.init();
                 ThreadProgressPanel panel = new ThreadProgressPanel("Building map...", thread);
-                PanelWrapperDialog dlg =
-                        new PanelWrapperDialog(this, "Conquest", true, panel, new String[0]);
+                PanelWrapperDialog dlg = new PanelWrapperDialog(this, "Conquest", true, panel, new String[0]);
                 DialogUtils.showCentered(this, dlg);
             }
 
@@ -264,9 +261,12 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      *
      */
     public void onUnitOutOfGas(Unit unit) {
-        JOptionPane.showMessageDialog(this,
-                "Your air unit ran out of fuel and crashed.", "Alert",
-                JOptionPane.WARNING_MESSAGE);
+        JOptionPane.showMessageDialog(
+            this,
+            "Your air unit ran out of fuel and crashed.",
+            "Alert",
+            JOptionPane.WARNING_MESSAGE
+        );
         onUnitDestroyed(unit);
     }
 
@@ -280,8 +280,7 @@ public class MainWindow extends JFrame implements ModelChangeListener {
     /**
      *
      */
-    public void onCityTaken(City city) {
-    }
+    public void onCityTaken(City city) {}
 
     /**
      *
@@ -331,17 +330,21 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      *
      */
     public boolean isGameInProgress() {
-        return (
-                getController() != null && getController().getCurrentPlayer() != null);
+        return getController() != null && getController().getCurrentPlayer() != null;
     }
 
     /**
      *
      */
     public boolean promptEndTurn() {
-        return (JOptionPane.showConfirmDialog(this,
-                "There are no units with movement left.  Do you want to end the turn?", "End Turn?",
-                JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION);
+        return (
+            JOptionPane.showConfirmDialog(
+                this,
+                "There are no units with movement left.  Do you want to end the turn?",
+                "End Turn?",
+                JOptionPane.YES_NO_OPTION
+            ) == JOptionPane.YES_OPTION
+        );
     }
 
     /**
@@ -353,8 +356,10 @@ public class MainWindow extends JFrame implements ModelChangeListener {
         if (isGameInProgress()) {
             String message = "Are you sure you wish to quit the current game?";
 
-            if (JOptionPane.showConfirmDialog(this, message, "Confirm",
-                    JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION) {
+            if (
+                JOptionPane.showConfirmDialog(this, message, "Confirm", JOptionPane.YES_NO_OPTION) ==
+                JOptionPane.NO_OPTION
+            ) {
                 end = false;
             }
         }
@@ -409,7 +414,7 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      *
      */
     protected boolean isHost() {
-        return (getController() != null && getController().isHost());
+        return getController() != null && getController().isHost();
     }
 
     /**
@@ -439,15 +444,22 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      */
     protected void loadStaticData() {
         class LoadDataAction implements ActionListener {
+
             public void actionPerformed(ActionEvent event) {
                 Thread thread = new Thread(new DataLoader());
                 ThreadProgressPanel panel = new ThreadProgressPanel("Initializing...", thread);
-                PanelWrapperDialog dlg =
-                        new PanelWrapperDialog(MainWindow.this, "Conquest", true, panel, new String[0]);
+                PanelWrapperDialog dlg = new PanelWrapperDialog(
+                    MainWindow.this,
+                    "Conquest",
+                    true,
+                    panel,
+                    new String[0]
+                );
                 DialogUtils.showCentered(MainWindow.this, dlg);
             }
 
             class DataLoader implements Runnable {
+
                 public void run() {
                     // Create a dummy unit to force loading of static data.
                     ConquestFactory.createUnit("com.osi.conquest.domain.impl.unit.Infantry", null, null);
@@ -488,8 +500,10 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      *
      */
     protected void initCanvases() {
-        Dimension size = new Dimension((int) (getGraphicsConfiguration().getBounds().getWidth() * .75),
-                (int) (getGraphicsConfiguration().getBounds().getHeight() * .75));
+        Dimension size = new Dimension(
+            (int) (getGraphicsConfiguration().getBounds().getWidth() * .75),
+            (int) (getGraphicsConfiguration().getBounds().getHeight() * .75)
+        );
         JSplitPane rightSplitter = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
         JSplitPane mainSplitter = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         JScrollPane mainCanvasScroller = createDefaultScroller(MapSquare.WIDTH, MapSquare.HEIGHT);
@@ -535,8 +549,10 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      *
      */
     protected JScrollPane createDefaultScroller(int xIncrement, int yIncrement) {
-        JScrollPane scroller = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
-                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        JScrollPane scroller = new JScrollPane(
+            ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+            ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED
+        );
 
         scroller.getViewport().setScrollMode(JViewport.BACKINGSTORE_SCROLL_MODE);
         scroller.setViewportBorder(BorderFactory.createRaisedBevelBorder());
@@ -549,8 +565,7 @@ public class MainWindow extends JFrame implements ModelChangeListener {
     /**
      *
      */
-    protected void initWorldMapCanvas() {
-    }
+    protected void initWorldMapCanvas() {}
 
     /**
      *
@@ -628,8 +643,7 @@ public class MainWindow extends JFrame implements ModelChangeListener {
     /**
      *
      */
-    protected void updateToolbar() {
-    }
+    protected void updateToolbar() {}
 
     /**
      *
@@ -740,16 +754,18 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      *
      */
     protected void enableIfUnitSelected(JComponent component) {
-        component.setEnabled(isGameInProgress() &&
-                getController().getSelectedUnit() != null);
+        component.setEnabled(isGameInProgress() && getController().getSelectedUnit() != null);
     }
 
     /**
      *
      */
     protected void updateViewUnits(JComponent component) {
-        if (isGameInProgress() && getController().getSelectedUnit() != null &&
-                getController().getSelectedUnit() instanceof Transport) {
+        if (
+            isGameInProgress() &&
+            getController().getSelectedUnit() != null &&
+            getController().getSelectedUnit() instanceof Transport
+        ) {
             Transport transport = (Transport) getController().getSelectedUnit();
             component.setEnabled(transport.getUnitCount() > 0);
         } else {
@@ -775,8 +791,11 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      *
      */
     protected void updateUnloadUnits(JComponent component) {
-        if (isGameInProgress() && getController().getSelectedUnit() != null &&
-                getController().getSelectedUnit() instanceof Transport) {
+        if (
+            isGameInProgress() &&
+            getController().getSelectedUnit() != null &&
+            getController().getSelectedUnit() instanceof Transport
+        ) {
             Transport transport = (Transport) getController().getSelectedUnit();
             component.setEnabled(transport.getFirstTransportedUnitWithMovement() != null);
         } else {
@@ -850,12 +869,20 @@ public class MainWindow extends JFrame implements ModelChangeListener {
             stream.writeObject(getController());
             stream.close();
         } catch (FileNotFoundException e) {
-            JOptionPane.showMessageDialog(this,
-                    "The file cannot be found; try 'Save As' instead", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(
+                this,
+                "The file cannot be found; try 'Save As' instead",
+                "Error",
+                JOptionPane.ERROR_MESSAGE
+            );
         } catch (Exception e) {
             Logger.error(e);
-            JOptionPane.showMessageDialog(this,
-                    "Error saving file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(
+                this,
+                "Error saving file: " + e.getMessage(),
+                "Error",
+                JOptionPane.ERROR_MESSAGE
+            );
         } finally {
             waitCursorOff();
         }
@@ -866,7 +893,9 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      */
     protected void saveMap(String filename) {
         try {
-            ObjectOutputStream stream = new ObjectOutputStream(new FileOutputStream(PropertyManager.getMapPath() + filename));
+            ObjectOutputStream stream = new ObjectOutputStream(
+                new FileOutputStream(PropertyManager.getMapPath() + filename)
+            );
 
             waitCursorOn();
             stream.writeObject(getController().getMap());
@@ -874,8 +903,12 @@ public class MainWindow extends JFrame implements ModelChangeListener {
             getController().setMapFilename(filename);
         } catch (Exception e) {
             Logger.error(e);
-            JOptionPane.showMessageDialog(this,
-                    "Error saving map file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(
+                this,
+                "Error saving map file: " + e.getMessage(),
+                "Error",
+                JOptionPane.ERROR_MESSAGE
+            );
         } finally {
             waitCursorOff();
         }
@@ -990,6 +1023,7 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      *
      */
     protected class MainWindowListener extends WindowAdapter {
+
         public void windowClosing(WindowEvent e) {
             if (endCurrentGame(true)) {
                 exit();
@@ -1001,6 +1035,7 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      *
      */
     protected class NewGameAction extends AbstractAction {
+
         public void actionPerformed(ActionEvent event) {
             if (endCurrentGame(true)) {
                 NewGameDialog dlg = new NewGameDialog(MainWindow.this);
@@ -1022,20 +1057,38 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      *
      */
     protected class JoinRemoteGameAction extends AbstractAction {
+
         public void actionPerformed(ActionEvent event) {
             if (endCurrentGame(true)) {
                 try {
                     ConnectToHostPanel panel = new ConnectToHostPanel();
-                    PanelWrapperDialog dlg = new PanelWrapperDialog(MainWindow.this, "Connect To Host", true, panel, new String[]{"Ok", "Cancel"});
+                    PanelWrapperDialog dlg = new PanelWrapperDialog(
+                        MainWindow.this,
+                        "Connect To Host",
+                        true,
+                        panel,
+                        new String[] { "Ok", "Cancel" }
+                    );
 
                     DialogUtils.showCentered(MainWindow.this, dlg);
                     if (!dlg.wasCanceled()) {
                         setState(STATE_WAITING_FOR_HOST_CONNECT);
                         ConquestFactory.createController(false);
-                        if (ClientRemoteCommunicator.getInstance().connectToHost(panel.getEndpoint(), panel.getName()) == false) {
-                            String msg = "The host rejected your connection.\nIf you are restoring a saved game" +
-                                    ", you must be sure to use the same player name as before.";
-                            JOptionPane.showMessageDialog(MainWindow.this, msg, "Conquest", JOptionPane.INFORMATION_MESSAGE);
+                        if (
+                            ClientRemoteCommunicator.getInstance().connectToHost(
+                                panel.getEndpoint(),
+                                panel.getName()
+                            ) == false
+                        ) {
+                            String msg =
+                                "The host rejected your connection.\nIf you are restoring a saved game" +
+                                ", you must be sure to use the same player name as before.";
+                            JOptionPane.showMessageDialog(
+                                MainWindow.this,
+                                msg,
+                                "Conquest",
+                                JOptionPane.INFORMATION_MESSAGE
+                            );
                             setState(STATE_NORMAL);
                         }
                     }
@@ -1051,6 +1104,7 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      *
      */
     protected class QuitGameAction extends AbstractAction {
+
         public void actionPerformed(ActionEvent event) {
             endCurrentGame(true);
         }
@@ -1060,13 +1114,24 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      *
      */
     protected class SendPlayerMessageAction extends AbstractAction {
+
         public void actionPerformed(ActionEvent event) {
             SendPlayerMessagePanel panel = new SendPlayerMessagePanel(getController().getPlayers());
-            PanelWrapperDialog dlg = new PanelWrapperDialog(MainWindow.this, "Send Player Message", true, panel, new String[]{"Ok", "Cancel"});
+            PanelWrapperDialog dlg = new PanelWrapperDialog(
+                MainWindow.this,
+                "Send Player Message",
+                true,
+                panel,
+                new String[] { "Ok", "Cancel" }
+            );
 
             DialogUtils.showCentered(MainWindow.this, dlg);
             if (!dlg.wasCanceled() && panel.getTargetPlayer() != null) {
-                getController().sendPlayerMessage(getController().getCurrentPlayer().toString(), panel.getTargetPlayer(), panel.getText());
+                getController().sendPlayerMessage(
+                    getController().getCurrentPlayer().toString(),
+                    panel.getTargetPlayer(),
+                    panel.getText()
+                );
             }
         }
     }
@@ -1075,6 +1140,7 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      *
      */
     protected class OpenAction extends AbstractAction {
+
         public void actionPerformed(ActionEvent event) {
             if (endCurrentGame(true)) {
                 JFileChooser chooser = new JFileChooser();
@@ -1089,13 +1155,20 @@ public class MainWindow extends JFrame implements ModelChangeListener {
                         _currentDir = chooser.getCurrentDirectory();
                         initRestoredGame(new ObjectInputStream(new FileInputStream(chooser.getSelectedFile())));
                     } catch (FileNotFoundException e) {
-                        JOptionPane.showMessageDialog(MainWindow.this,
-                                "The file cannot be found.", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(
+                            MainWindow.this,
+                            "The file cannot be found.",
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE
+                        );
                     } catch (Exception e) {
                         Logger.error(e);
-                        JOptionPane.showMessageDialog(MainWindow.this,
-                                "Invalid file format.", "Error",
-                                JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(
+                            MainWindow.this,
+                            "Invalid file format.",
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE
+                        );
                     }
                 }
             }
@@ -1106,6 +1179,7 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      *
      */
     protected class SaveAction extends AbstractAction {
+
         public void actionPerformed(ActionEvent event) {
             if (_currentFile == null) {
                 saveAs();
@@ -1119,6 +1193,7 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      *
      */
     protected class SaveAsAction extends AbstractAction {
+
         public void actionPerformed(ActionEvent event) {
             saveAs();
         }
@@ -1128,6 +1203,7 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      *
      */
     protected class SaveMapAction extends AbstractAction {
+
         public void actionPerformed(ActionEvent event) {
             saveMap();
         }
@@ -1137,6 +1213,7 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      *
      */
     protected class OptionsAction extends AbstractAction {
+
         public void actionPerformed(ActionEvent event) {
             //@todo
         }
@@ -1146,6 +1223,7 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      *
      */
     protected class ExitAction extends AbstractAction {
+
         public void actionPerformed(ActionEvent event) {
             if (endCurrentGame(true)) {
                 exit();
@@ -1157,14 +1235,20 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      *
      */
     protected class EndTurnAction extends AbstractAction {
+
         public void actionPerformed(ActionEvent event) {
             boolean end = true;
             Unit unit = getController().getCurrentPlayer().getFirstUnitWithMovement();
 
             if (unit != null) {
-                if (JOptionPane.showConfirmDialog(MainWindow.this,
+                if (
+                    JOptionPane.showConfirmDialog(
+                        MainWindow.this,
                         "There are units with movement left; are you sure you wish to end the turn?",
-                        "Confirm", JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION) {
+                        "Confirm",
+                        JOptionPane.YES_NO_OPTION
+                    ) == JOptionPane.NO_OPTION
+                ) {
                     end = false;
                     getController().setSelectedUnit(unit);
                 }
@@ -1180,10 +1264,10 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      *
      */
     protected class CenterUnitAction extends AbstractAction {
+
         public void actionPerformed(ActionEvent event) {
             if (getController().getSelectedUnit() != null) {
-                getController().scrollTo(getController().getSelectedUnit().
-                        getLocation());
+                getController().scrollTo(getController().getSelectedUnit().getLocation());
             } else {
                 City city = (City) getController().getCurrentPlayer().getCities().get(0);
                 getController().scrollTo(city.getLocation());
@@ -1195,6 +1279,7 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      *
      */
     protected class NextUnitAction extends AbstractAction {
+
         public void actionPerformed(ActionEvent event) {
             getController().nextUnit(null);
         }
@@ -1204,13 +1289,19 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      *
      */
     protected class ViewUnitsAction extends AbstractAction {
+
         public void actionPerformed(ActionEvent event) {
             // Bring up the Units dlg.
             if (getCommandTarget() != null) {
                 Transport transport = (Transport) getCommandTarget();
                 UnitsPanel panel = new UnitsPanel(transport.getUnits(), true);
-                PanelWrapperDialog dialog =
-                        new PanelWrapperDialog(MainWindow.this, "Conquest", true, panel, new String[0]);
+                PanelWrapperDialog dialog = new PanelWrapperDialog(
+                    MainWindow.this,
+                    "Conquest",
+                    true,
+                    panel,
+                    new String[0]
+                );
                 DialogUtils.showCentered(MainWindow.this, dialog);
             }
         }
@@ -1220,8 +1311,10 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      *
      */
     protected class PlayMovementReportsAction extends AbstractAction {
+
         public void actionPerformed(ActionEvent event) {
             class PlayReportsWorker implements Runnable {
+
                 public void run() {
                     getController().getCurrentPlayer().playMovementReports();
                 }
@@ -1229,8 +1322,7 @@ public class MainWindow extends JFrame implements ModelChangeListener {
 
             Thread thread = new Thread(new PlayReportsWorker());
             ThreadProgressPanel panel = new ThreadProgressPanel("Playing Movement Reports...", thread);
-            PanelWrapperDialog dlg =
-                    new PanelWrapperDialog(MainWindow.this, "Conquest", true, panel, new String[0]);
+            PanelWrapperDialog dlg = new PanelWrapperDialog(MainWindow.this, "Conquest", true, panel, new String[0]);
             DialogUtils.showCentered(MainWindow.this, dlg);
         }
     }
@@ -1239,6 +1331,7 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      *
      */
     protected class SkipUnitAction extends AbstractAction {
+
         public void actionPerformed(ActionEvent event) {
             if (getCommandTarget() != null) {
                 getCommandTarget().setMovementPoints(0);
@@ -1251,6 +1344,7 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      *
      */
     protected class SentryAction extends AbstractAction {
+
         public void actionPerformed(ActionEvent event) {
             if (getCommandTarget() != null) {
                 getCommandTarget().sentry();
@@ -1264,6 +1358,7 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      *
      */
     protected class UnloadAction extends AbstractAction {
+
         public void actionPerformed(ActionEvent event) {
             if (getCommandTarget() != null && getCommandTarget() instanceof Transport) {
                 Transport transport = (Transport) getCommandTarget();
@@ -1279,6 +1374,7 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      *
      */
     protected class PatrolAction extends AbstractAction {
+
         public void actionPerformed(ActionEvent event) {
             if (getCommandTarget() != null) {
                 getController().setSelectedUnit(getCommandTarget());
@@ -1291,6 +1387,7 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      *
      */
     protected class ClearOrdersAction extends AbstractAction {
+
         public void actionPerformed(ActionEvent event) {
             if (getCommandTarget() != null) {
                 getCommandTarget().clearOrders();
@@ -1302,6 +1399,7 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      *
      */
     protected class GoHomeAction extends AbstractAction {
+
         public void actionPerformed(ActionEvent event) {
             if (getCommandTarget() != null) {
                 Unit unit = getCommandTarget();
@@ -1316,9 +1414,12 @@ public class MainWindow extends JFrame implements ModelChangeListener {
                             getController().nextUnit(null);
                         }
                     } else {
-                        JOptionPane.showMessageDialog(MainWindow.this,
-                                "Cannot find a path to a friendly city.", "Error",
-                                JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(
+                            MainWindow.this,
+                            "Cannot find a path to a friendly city.",
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE
+                        );
                     }
                 }
             }
@@ -1329,6 +1430,7 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      *
      */
     protected class ActivateAction extends AbstractAction {
+
         public void actionPerformed(ActionEvent event) {
             if (getCommandTarget() != null) {
                 getController().setSelectedUnit(getCommandTarget());
@@ -1340,17 +1442,17 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      *
      */
     protected class CancelAction extends AbstractAction {
-        public void actionPerformed(ActionEvent event) {
-        }
+
+        public void actionPerformed(ActionEvent event) {}
     }
 
     /**
      *
      */
     protected class UnitReportAction extends AbstractAction {
+
         public void actionPerformed(ActionEvent event) {
-            UnitStatsDialog dlg = new UnitStatsDialog(MainWindow.this,
-                    getController().getCurrentPlayer());
+            UnitStatsDialog dlg = new UnitStatsDialog(MainWindow.this, getController().getCurrentPlayer());
             DialogUtils.showCentered(MainWindow.this, dlg);
         }
     }
@@ -1359,9 +1461,9 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      *
      */
     protected class CityReportAction extends AbstractAction {
+
         public void actionPerformed(ActionEvent event) {
-            CityStatsDialog dlg = new CityStatsDialog(MainWindow.this,
-                    getController().getCurrentPlayer());
+            CityStatsDialog dlg = new CityStatsDialog(MainWindow.this, getController().getCurrentPlayer());
             DialogUtils.showCentered(MainWindow.this, dlg);
         }
     }
@@ -1370,6 +1472,7 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      *
      */
     protected class ModeNormalAction extends AbstractAction {
+
         public void actionPerformed(ActionEvent event) {
             getCanvas().setState(MainCanvas.STATE_NORMAL);
             getController().nextUnit(null);
@@ -1380,6 +1483,7 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      *
      */
     protected class ModeProductionAction extends AbstractAction {
+
         public void actionPerformed(ActionEvent event) {
             getController().setSelectedUnit(null);
             getCanvas().setState(MainCanvas.STATE_PRODUCTION);
@@ -1390,10 +1494,14 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      *
      */
     protected class HelpAboutAction extends AbstractAction {
+
         public void actionPerformed(ActionEvent event) {
-            JOptionPane.showMessageDialog(MainWindow.this,
-                    "Conquest V1.0.  Copyright 2000 by Object Specialists, Inc.  All rights reserved.",
-                    "Conquest", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(
+                MainWindow.this,
+                "Conquest V1.0.  Copyright 2000 by Object Specialists, Inc.  All rights reserved.",
+                "Conquest",
+                JOptionPane.INFORMATION_MESSAGE
+            );
         }
     }
 
@@ -1401,6 +1509,7 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      *
      */
     protected class CityProductionAction extends AbstractAction {
+
         public void actionPerformed(ActionEvent event) {
             if (_cityPopupTarget != null) {
                 MainWindow.this.showCityDialog(getController().getCurrentPlayer(), _cityPopupTarget, false);
@@ -1412,11 +1521,17 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      *
      */
     protected class CityUnitsAction extends AbstractAction {
+
         public void actionPerformed(ActionEvent event) {
             if (_cityPopupTarget != null) {
                 UnitsPanel panel = new UnitsPanel(_cityPopupTarget.getUnits(), true);
-                PanelWrapperDialog dialog =
-                        new PanelWrapperDialog(MainWindow.this, "Conquest", true, panel, new String[0]);
+                PanelWrapperDialog dialog = new PanelWrapperDialog(
+                    MainWindow.this,
+                    "Conquest",
+                    true,
+                    panel,
+                    new String[0]
+                );
                 MapSquare square = getController().getMap().getSquareAt(_cityPopupTarget.getLocation());
 
                 square.highlight();
@@ -1434,6 +1549,7 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      *
      */
     protected class SetAutoForwardAction extends AbstractAction {
+
         public void actionPerformed(ActionEvent event) {
             if (_cityPopupTarget != null) getCanvas().doAutoForward(_cityPopupTarget);
         }
@@ -1443,6 +1559,7 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      *
      */
     protected class TimerListener implements ActionListener {
+
         public void actionPerformed(ActionEvent event) {
             updateToolbar();
             updateStatusBar();
@@ -1454,11 +1571,10 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      *
      */
     protected abstract class MenuAdaptor implements MenuListener {
-        public void menuCanceled(MenuEvent event) {
-        }
 
-        public void menuDeselected(MenuEvent event) {
-        }
+        public void menuCanceled(MenuEvent event) {}
+
+        public void menuDeselected(MenuEvent event) {}
 
         public void menuSelected(MenuEvent event) {
             updateItems((JMenu) event.getSource());
@@ -1471,6 +1587,7 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      *
      */
     protected class FileMenuListener extends MenuAdaptor {
+
         protected void updateItems(JMenu menu) {
             enableIfLocalPlayer(getItem(menu, "Save"));
             enableIfLocalPlayer(getItem(menu, "Save As..."));
@@ -1482,6 +1599,7 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      *
      */
     protected class GameMenuListener extends MenuAdaptor {
+
         protected void updateItems(JMenu menu) {
             enableIfGameInProgress(getItem(menu, "Quit Game"));
             getItem(menu, "Send Player Message...").setEnabled(isGameInProgress());
@@ -1492,6 +1610,7 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      *
      */
     protected class CommandsMenuListener extends MenuAdaptor {
+
         protected void updateItems(JMenu menu) {
             enableIfGameInProgress(getItem(menu, "End Turn"));
             enableIfGameInProgress(getItem(menu, "Center"));
@@ -1505,6 +1624,7 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      *
      */
     protected class OrdersMenuListener extends MenuAdaptor {
+
         protected void updateItems(JMenu menu) {
             enableIfUnitSelected(getItem(menu, "Skip Unit"));
             enableIfUnitSelected(getItem(menu, "Sentry"));
@@ -1519,6 +1639,7 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      *
      */
     protected class ReportsMenuListener extends MenuAdaptor {
+
         protected void updateItems(JMenu menu) {
             enableIfGameInProgress(getItem(menu, "Units..."));
             enableIfGameInProgress(getItem(menu, "Cities..."));
@@ -1529,6 +1650,7 @@ public class MainWindow extends JFrame implements ModelChangeListener {
      *
      */
     protected class ModeMenuListener extends MenuAdaptor {
+
         protected void updateItems(JMenu menu) {
             enableIfGameInProgress(getItem(menu, "Normal"));
             enableIfGameInProgress(getItem(menu, "Production"));

@@ -1,15 +1,13 @@
 package com.osi.conquest.domain.impl.mapsquare;
 
-
 import com.osi.conquest.domain.MapSquare;
-
 import java.awt.*;
-
 
 /**
  * @author Paul Folbrecht
  */
 public class Water extends MapSquareImpl {
+
     protected static SquareTypeDataImpl _typeData = new SquareTypeDataImpl();
 
     /**
@@ -30,6 +28,7 @@ public class Water extends MapSquareImpl {
      *
      */
     public static class SquareTypeDataImpl implements MapSquare.SquareTypeData {
+
         public String getName() {
             return "Water";
         }

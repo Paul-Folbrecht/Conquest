@@ -1,23 +1,21 @@
 package com.osi.conquest.ui.dialogs.newgame;
 
-
 import com.osi.conquest.ConquestRuntimeException;
 import com.osi.conquest.PropertyManager;
 import com.osi.conquest.domain.ConquestFactory;
 import com.osi.conquest.domain.Player;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 /**
  * @author Paul Folbrecht
  */
 public class PlayersPanel extends JPanel {
+
     protected JSlider _numPlayers;
     protected PlayerSetupPanel[] _playerPanels;
     protected Player[] _players;
@@ -47,9 +45,12 @@ public class PlayersPanel extends JPanel {
         }
 
         if (!haveLocalPlayer) {
-            JOptionPane.showMessageDialog(this,
-                    "There must be at least one local player.", "Error",
-                    JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(
+                this,
+                "There must be at least one local player.",
+                "Error",
+                JOptionPane.ERROR_MESSAGE
+            );
             return false;
         }
 
@@ -65,8 +66,7 @@ public class PlayersPanel extends JPanel {
             for (int index = 0; index < getNumPlayers(); index++) {
                 if (_playerPanels[index].isPlayerLocal()) {
                     // Any player created here is local to the host.
-                    _players[index] =
-                            ConquestFactory.createPlayer(index, _playerPanels[index].getPlayerName(), true);
+                    _players[index] = ConquestFactory.createPlayer(index, _playerPanels[index].getPlayerName(), true);
                 } else {
                     // Placeholder for remote player.  Player created when it's machine connects to the host.
                     _players[index] = null;
@@ -100,8 +100,12 @@ public class PlayersPanel extends JPanel {
         JPanel panel = new JPanel();
 
         panel.setLayout(new FlowLayout(FlowLayout.LEFT));
-        panel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("Number of Players"),
-                BorderFactory.createRaisedBevelBorder()));
+        panel.setBorder(
+            BorderFactory.createCompoundBorder(
+                BorderFactory.createTitledBorder("Number of Players"),
+                BorderFactory.createRaisedBevelBorder()
+            )
+        );
         _numPlayers = new JSlider(JSlider.HORIZONTAL, 2, Player.MAX_PLAYERS, 2);
         _numPlayers.addChangeListener(new NumPlayersHandler());
         _numPlayers.setMajorTickSpacing(1);
@@ -122,8 +126,12 @@ public class PlayersPanel extends JPanel {
         JPanel panel = new JPanel();
 
         panel.setLayout(new GridLayout(4, 1));
-        panel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("Player Setup"),
-                BorderFactory.createRaisedBevelBorder()));
+        panel.setBorder(
+            BorderFactory.createCompoundBorder(
+                BorderFactory.createTitledBorder("Player Setup"),
+                BorderFactory.createRaisedBevelBorder()
+            )
+        );
         _playerPanels = new PlayerSetupPanel[Player.MAX_PLAYERS];
         for (int index = 0; index < Player.MAX_PLAYERS; index++) {
             _playerPanels[index] = new PlayerSetupPanel(index);
@@ -170,6 +178,7 @@ public class PlayersPanel extends JPanel {
      *
      */
     protected class NumPlayersHandler implements ChangeListener {
+
         public void stateChanged(ChangeEvent event) {
             for (int index = 0; index < Player.MAX_PLAYERS; index++) {
                 if (_playerPanels != null) {
@@ -183,6 +192,7 @@ public class PlayersPanel extends JPanel {
      *
      */
     protected class PlayerSetupPanel extends JPanel {
+
         protected static final int HUMAN_LOCAL = 0;
         protected static final int HUMAN_REMOTE = 1;
 
@@ -219,7 +229,7 @@ public class PlayersPanel extends JPanel {
          *
          */
         public boolean isPlayerLocal() {
-            return (_type.getSelectedIndex() != HUMAN_REMOTE);
+            return _type.getSelectedIndex() != HUMAN_REMOTE;
         }
 
         /**
@@ -234,8 +244,12 @@ public class PlayersPanel extends JPanel {
          */
         public boolean validateData() {
             if (isPlayerLocal() && _name.getText().length() < 1) {
-                JOptionPane.showMessageDialog(this, "Please enter a name for player " + (_index + 1),
-                        "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(
+                    this,
+                    "Please enter a name for player " + (_index + 1),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+                );
                 return false;
             }
 
@@ -257,8 +271,7 @@ public class PlayersPanel extends JPanel {
          *
          */
         protected void init() {
-            setBorder(BorderFactory.createTitledBorder("Player " +
-                    (_index + 1)));
+            setBorder(BorderFactory.createTitledBorder("Player " + (_index + 1)));
             setLayout(new BorderLayout());
             add(createTypePanel(), BorderLayout.CENTER);
         }
@@ -268,7 +281,7 @@ public class PlayersPanel extends JPanel {
          */
         protected JPanel createTypePanel() {
             JPanel panel = new JPanel();
-            String[] types = {"Human - Local", "Human - Remote"};
+            String[] types = { "Human - Local", "Human - Remote" };
 
             panel.setLayout(new FlowLayout(FlowLayout.LEFT));
             panel.setBorder(BorderFactory.createRaisedBevelBorder());
@@ -291,6 +304,7 @@ public class PlayersPanel extends JPanel {
          *
          */
         protected class TypeChangeHandler implements ItemListener {
+
             public void itemStateChanged(ItemEvent event) {
                 setEnabled(true);
             }

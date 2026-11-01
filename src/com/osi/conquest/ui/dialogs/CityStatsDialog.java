@@ -1,25 +1,23 @@
 package com.osi.conquest.ui.dialogs;
 
-
 import com.osi.conquest.domain.City;
 import com.osi.conquest.domain.Player;
 import com.osi.conquest.domain.impl.unit.UnitImpl;
 import com.osi.conquest.ui.renderers.UnitRenderer;
-
-import javax.swing.*;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.List;
-
+import javax.swing.*;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableColumn;
 
 /**
  * @author Paul Folbrecht
  */
 public class CityStatsDialog extends JDialog {
+
     protected static int COLUMN_CITY_NAME = 0;
     protected static int COLUMN_CITY_LOCATION = 1;
     protected static int COLUMN_UNIT_IN_PRODUCTION = 2;
@@ -57,9 +55,11 @@ public class CityStatsDialog extends JDialog {
      */
     protected JComponent createTable() {
         JTable table = new JTable(new CityStatsTableModel());
-        JScrollPane scroller = new JScrollPane(table,
-                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        JScrollPane scroller = new JScrollPane(
+            table,
+            JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
+        );
 
         ((CityStatsTableModel) table.getModel()).adjustColumnWidths(table);
         scroller.getViewport().setPreferredSize(table.getPreferredSize());
@@ -89,6 +89,7 @@ public class CityStatsDialog extends JDialog {
      *
      */
     protected class OkHandler implements ActionListener {
+
         public void actionPerformed(ActionEvent event) {
             setVisible(false);
         }
@@ -98,6 +99,7 @@ public class CityStatsDialog extends JDialog {
      *
      */
     protected class CityStatsTableModel extends AbstractTableModel {
+
         protected List _unitClasses = UnitImpl.getClasses();
         protected List _cities = _player.getCities();
         protected HashMap _icons = new HashMap();
@@ -106,7 +108,10 @@ public class CityStatsDialog extends JDialog {
         public CityStatsTableModel() {
             // Init images.
             for (int index = 0; index < _unitClasses.size(); index++) {
-                _icons.put(_unitClasses.get(index), new ImageIcon(UnitRenderer.getImage(_player.getId(), (Class) _unitClasses.get(index))));
+                _icons.put(
+                    _unitClasses.get(index),
+                    new ImageIcon(UnitRenderer.getImage(_player.getId(), (Class) _unitClasses.get(index)))
+                );
             }
 
             // Init column names.

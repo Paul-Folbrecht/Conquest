@@ -1,10 +1,7 @@
 package com.osi.conquest.ui.event;
 
-
 import com.osi.conquest.domain.MapSquare;
-
 import java.awt.*;
-
 
 /**
  * @author Paul Folbrecht

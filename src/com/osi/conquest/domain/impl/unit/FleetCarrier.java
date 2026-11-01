@@ -1,13 +1,12 @@
 package com.osi.conquest.domain.impl.unit;
 
-
 import com.osi.conquest.domain.Unit;
-
 
 /**
  * @author Paul Folbrecht
  */
 public class FleetCarrier extends SeaTransport {
+
     /**
      *
      */
@@ -19,7 +18,7 @@ public class FleetCarrier extends SeaTransport {
      *
      */
     public boolean canTransport(Unit unit) {
-        return (unit instanceof AirUnit);
+        return unit instanceof AirUnit;
     }
 
     /**
@@ -33,6 +32,7 @@ public class FleetCarrier extends SeaTransport {
      *
      */
     public static class UnitTypeDataImpl extends SeaUnit.UnitTypeDataImpl {
+
         public String getName() {
             return "Carrier";
         }

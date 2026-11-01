@@ -1,20 +1,18 @@
 package com.osi.conquest.domain.impl.unit;
 
-
 import com.osi.conquest.domain.City;
 import com.osi.conquest.domain.MapSquare;
 import com.osi.conquest.domain.Unit;
 import com.osi.conquest.domain.impl.mapsquare.Forest;
 import com.osi.conquest.domain.impl.mapsquare.Mountain;
 import com.osi.conquest.domain.impl.mapsquare.Water;
-
 import java.awt.*;
-
 
 /**
  * @author Paul Folbrecht
  */
 public abstract class LandUnit extends UnitImpl {
+
     private static final long serialVersionUID = 1L;
 
     /**
@@ -25,10 +23,10 @@ public abstract class LandUnit extends UnitImpl {
         City city = square.getCity();
         Unit unit = square.getUnit();
 
-        if (city != null) return (city.getOwner() != getOwner());
+        if (city != null) return city.getOwner() != getOwner();
         else if (unit != null && unit.getOwner() != getOwner()) {
             if (!square.isWater()) return true;
-            else return (unit instanceof SeaUnit && !((SeaUnit) unit).isSubmersible());
+            else return unit instanceof SeaUnit && !((SeaUnit) unit).isSubmersible();
         }
 
         return false;
@@ -46,7 +44,7 @@ public abstract class LandUnit extends UnitImpl {
             // Only time this is legal is if the unit is trying to board transport.
             if (square.getUnit() != null && square.getUnit() instanceof SeaTransport) {
                 SeaTransport transport = (SeaTransport) square.getUnit();
-                return (transport.canTransport(this) && transport.doesUnitFit(this));
+                return transport.canTransport(this) && transport.doesUnitFit(this);
             }
 
             return false;
@@ -71,7 +69,7 @@ public abstract class LandUnit extends UnitImpl {
 
         if (modifiers > 2) modifiers = 2;
 
-        if (modifiers < 0) factor = factor * (Math.pow(.5, Math.abs(modifiers)));
+        if (modifiers < 0) factor = factor * Math.pow(.5, Math.abs(modifiers));
         else if (modifiers > 0) factor = factor * (.5 * modifiers + 1);
 
         return factor;
@@ -80,7 +78,8 @@ public abstract class LandUnit extends UnitImpl {
     /**
      *
      */
-    public static abstract class UnitTypeDataImpl extends UnitImpl.UnitTypeDataImpl {
+    public abstract static class UnitTypeDataImpl extends UnitImpl.UnitTypeDataImpl {
+
         public int getSightRange(Class unitClass) {
             if (unitClass.equals(Sub.class) || unitClass.equals(Spy.class)) return 0;
             else return 2;

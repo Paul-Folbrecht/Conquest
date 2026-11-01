@@ -1,17 +1,16 @@
 package com.osi.util;
 
-
 /**
  * @author Paul Folbrecht
  */
 
 public class StringUtils {
+
     /**
      *
      */
     public static String stripClassName(Class theClass) {
-        return theClass.getName().substring(theClass.getName().
-                lastIndexOf(".") + 1);
+        return theClass.getName().substring(theClass.getName().lastIndexOf(".") + 1);
     }
 
     /**

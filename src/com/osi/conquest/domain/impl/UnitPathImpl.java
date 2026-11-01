@@ -1,10 +1,8 @@
 package com.osi.conquest.domain.impl;
 
-
 import com.osi.conquest.Logger;
 import com.osi.conquest.domain.*;
 import com.osi.conquest.domain.impl.unit.LandUnit;
-
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
@@ -12,11 +10,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-
 /**
  * @author Paul Folbrecht
  */
 public class UnitPathImpl implements UnitPath {
+
     protected static final int UNSEEN = Short.MAX_VALUE - 2;
 
     protected static Point[][] _dad;
@@ -132,8 +130,12 @@ public class UnitPathImpl implements UnitPath {
      * @todo This doesn't belong here- UI knowledge.
      */
     public Rectangle toDisplay(Rectangle area) {
-        return new Rectangle(area.x * MapSquare.WIDTH, area.y * MapSquare.HEIGHT,
-                area.width * MapSquare.WIDTH, area.height * MapSquare.HEIGHT);
+        return new Rectangle(
+            area.x * MapSquare.WIDTH,
+            area.y * MapSquare.HEIGHT,
+            area.width * MapSquare.WIDTH,
+            area.height * MapSquare.HEIGHT
+        );
     }
 
     /**
@@ -143,7 +145,7 @@ public class UnitPathImpl implements UnitPath {
         graphics.setPaint(Color.white);
         graphics.setStroke(new BasicStroke(1));
 
-        for (int index = _pathIndex; index < (_path.size() - 1); index++) {
+        for (int index = _pathIndex; index < _path.size() - 1; index++) {
             MapSquare square = getMap().getSquareAt((Point) _path.get(index));
             MapSquare nextSquare = getMap().getSquareAt((Point) _path.get(index + 1));
 
@@ -234,8 +236,10 @@ public class UnitPathImpl implements UnitPath {
     protected void drawLine(Graphics2D graphics, MapSquare from, MapSquare to) {
         Point squareCenter = from.getCenterPixelPoint();
         Point nextSquareCenter = to.getCenterPixelPoint();
-        Line2D line = new Line2D.Float(new Point2D.Float(squareCenter.x, squareCenter.y),
-                new Point2D.Float(nextSquareCenter.x, nextSquareCenter.y));
+        Line2D line = new Line2D.Float(
+            new Point2D.Float(squareCenter.x, squareCenter.y),
+            new Point2D.Float(nextSquareCenter.x, nextSquareCenter.y)
+        );
 
         graphics.draw(line);
     }
@@ -308,8 +312,7 @@ public class UnitPathImpl implements UnitPath {
 
             if (point2 == null) {
                 buildPath();
-                Logger.info("Dijkstra path failed for unit " + _unit.getId() +
-                        "\nPartial path: " + toString());
+                Logger.info("Dijkstra path failed for unit " + _unit.getId() + "\nPartial path: " + toString());
                 return false;
             } else if (checkEquals(point2, _to)) {
                 buildPath();
@@ -329,9 +332,11 @@ public class UnitPathImpl implements UnitPath {
                 MapSquare adjacentSquare = getMap().getSquareAt(adjacentPoint);
 
                 if (_val[adjacentPoint.x][adjacentPoint.y] < 0) {
-                    int priority = _val[point.x][point.y] + _unit.getUnitTypeData().
-                            getMovementCost(adjacentSquare.getClass()) + 1 +
-                            getPriorityAdjustment(adjacentPoint);
+                    int priority =
+                        _val[point.x][point.y] +
+                        _unit.getUnitTypeData().getMovementCost(adjacentSquare.getClass()) +
+                        1 +
+                        getPriorityAdjustment(adjacentPoint);
 
                     if (priorityQueueUpdate(adjacentPoint, priority)) {
                         _val[adjacentPoint.x][adjacentPoint.y] = -priority;
@@ -343,8 +348,7 @@ public class UnitPathImpl implements UnitPath {
         }
 
         buildPath();
-        Logger.info("Dijkstra path failed for unit " + _unit.getId() +
-                "\nPartial path: " + toString());
+        Logger.info("Dijkstra path failed for unit " + _unit.getId() + "\nPartial path: " + toString());
         return false;
     }
 
@@ -369,8 +373,7 @@ public class UnitPathImpl implements UnitPath {
             Point point = (Point) _priorityQueue.get(index);
             MapSquare square = getMap().getSquareAt(point);
             int movementCost = _unit.getUnitTypeData().getMovementCost(square.getClass());
-            int checkValue = -(_val[point.x][point.y]) + movementCost + 1 +
-                    getPriorityAdjustment(point);
+            int checkValue = -_val[point.x][point.y] + movementCost + 1 + getPriorityAdjustment(point);
 
             if (checkValue < lowPriority) {
                 lowPriority = checkValue;
@@ -408,8 +411,10 @@ public class UnitPathImpl implements UnitPath {
 
         // Point wasn't found; insert it.
         MapSquare square = getMap().getSquareAt(checkPoint);
-        if (_unit.getUnitTypeData().getMovementCost(square.getClass()) !=
-                MapSquare.ILLEGAL_MOVE || checkEquals(square.getLocation(), _from)) {
+        if (
+            _unit.getUnitTypeData().getMovementCost(square.getClass()) != MapSquare.ILLEGAL_MOVE ||
+            checkEquals(square.getLocation(), _from)
+        ) {
             if (!_skipOccupiedSquares || square.getUnit() == null) {
                 _priorityQueue.add(checkPoint);
                 return true;
@@ -452,7 +457,11 @@ public class UnitPathImpl implements UnitPath {
 
         if (square.getUnit() != null && _skipOccupiedSquares) {
             delta += MapSquare.ILLEGAL_MOVE;
-        } else if (square.getCity() != null && square.getCity().getOwner() != _unit.getOwner() && !checkEquals(square.getLocation(), _from)) {
+        } else if (
+            square.getCity() != null &&
+            square.getCity().getOwner() != _unit.getOwner() &&
+            !checkEquals(square.getLocation(), _from)
+        ) {
             // Can't move over non-friendly cities.
             delta += MapSquare.ILLEGAL_MOVE;
         } else if (!square.isVisibleToPlayer(_unit.getOwner())) {
@@ -466,7 +475,7 @@ public class UnitPathImpl implements UnitPath {
      *
      */
     protected boolean checkEquals(Point one, Point two) {
-        return (one.x == two.x && one.y == two.y);
+        return one.x == two.x && one.y == two.y;
     }
 
     /**

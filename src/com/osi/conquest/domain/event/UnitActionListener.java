@@ -1,11 +1,8 @@
 package com.osi.conquest.domain.event;
 
-
 import com.osi.conquest.domain.OwnableObject;
 import com.osi.conquest.domain.Unit;
-
 import java.awt.*;
-
 
 /**
  * @author Paul Folbrecht

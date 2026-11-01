@@ -1,15 +1,13 @@
 package com.osi.conquest.domain.impl.mapsquare;
 
-
 import com.osi.conquest.domain.*;
-
 import java.awt.*;
-
 
 /**
  * @author Paul Folbrecht
  */
 public abstract class MapSquareImpl implements MapSquare {
+
     private static final long serialVersionUID = 1L;
     protected Point _location;
     protected boolean[] _hiddenFlags;
@@ -21,8 +19,7 @@ public abstract class MapSquareImpl implements MapSquare {
     /**
      *
      */
-    public MapSquareImpl() {
-    }
+    public MapSquareImpl() {}
 
     public abstract MapSquare.SquareTypeData getSquareTypeData();
 
@@ -30,7 +27,13 @@ public abstract class MapSquareImpl implements MapSquare {
      *
      */
     public String toString() {
-        return getClass().getName().substring(getClass().getName().lastIndexOf('.')) + " at " + getLocation().x + ", " + getLocation().y;
+        return (
+            getClass().getName().substring(getClass().getName().lastIndexOf('.')) +
+            " at " +
+            getLocation().x +
+            ", " +
+            getLocation().y
+        );
     }
 
     /**
@@ -66,7 +69,10 @@ public abstract class MapSquareImpl implements MapSquare {
      * @todo UI knowledge here.
      */
     public Point getCenterPixelPoint() {
-        return new Point((_location.x * MapSquare.WIDTH) + (MapSquare.WIDTH / 2), (_location.y * MapSquare.HEIGHT) + (MapSquare.HEIGHT / 2));
+        return new Point(
+            _location.x * MapSquare.WIDTH + MapSquare.WIDTH / 2,
+            _location.y * MapSquare.HEIGHT + MapSquare.HEIGHT / 2
+        );
     }
 
     /**
@@ -115,28 +121,44 @@ public abstract class MapSquareImpl implements MapSquare {
 
         if (isWater()) return false;
 
-        nextTo = getController().getMap().getSquareAt(new Point((int) _location.getX(), (int) _location.getY() + 1));
+        nextTo = getController()
+            .getMap()
+            .getSquareAt(new Point((int) _location.getX(), (int) _location.getY() + 1));
         if (nextTo != null && nextTo.isWater()) return true;
 
-        nextTo = getController().getMap().getSquareAt(new Point((int) _location.getX(), (int) _location.getY() - 1));
+        nextTo = getController()
+            .getMap()
+            .getSquareAt(new Point((int) _location.getX(), (int) _location.getY() - 1));
         if (nextTo != null && nextTo.isWater()) return true;
 
-        nextTo = getController().getMap().getSquareAt(new Point((int) _location.getX() + 1, (int) _location.getY()));
+        nextTo = getController()
+            .getMap()
+            .getSquareAt(new Point((int) _location.getX() + 1, (int) _location.getY()));
         if (nextTo != null && nextTo.isWater()) return true;
 
-        nextTo = getController().getMap().getSquareAt(new Point((int) _location.getX() - 1, (int) _location.getY()));
+        nextTo = getController()
+            .getMap()
+            .getSquareAt(new Point((int) _location.getX() - 1, (int) _location.getY()));
         if (nextTo != null && nextTo.isWater()) return true;
 
-        nextTo = getController().getMap().getSquareAt(new Point((int) _location.getX() + 1, (int) _location.getY() + 1));
+        nextTo = getController()
+            .getMap()
+            .getSquareAt(new Point((int) _location.getX() + 1, (int) _location.getY() + 1));
         if (nextTo != null && nextTo.isWater()) return true;
 
-        nextTo = getController().getMap().getSquareAt(new Point((int) _location.getX() - 1, (int) _location.getY() + 1));
+        nextTo = getController()
+            .getMap()
+            .getSquareAt(new Point((int) _location.getX() - 1, (int) _location.getY() + 1));
         if (nextTo != null && nextTo.isWater()) return true;
 
-        nextTo = getController().getMap().getSquareAt(new Point((int) _location.getX() + 1, (int) _location.getY() - 1));
+        nextTo = getController()
+            .getMap()
+            .getSquareAt(new Point((int) _location.getX() + 1, (int) _location.getY() - 1));
         if (nextTo != null && nextTo.isWater()) return true;
 
-        nextTo = getController().getMap().getSquareAt(new Point((int) _location.getX() - 1, (int) _location.getY() - 1));
+        nextTo = getController()
+            .getMap()
+            .getSquareAt(new Point((int) _location.getX() - 1, (int) _location.getY() - 1));
         if (nextTo != null && nextTo.isWater()) return true;
 
         return false;

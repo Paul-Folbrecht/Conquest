@@ -1,6 +1,5 @@
 package com.osi.util.ui.dialogs;
 
-
 /**
  * @author Paul Folbrecht
  */

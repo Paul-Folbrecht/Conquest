@@ -1,28 +1,24 @@
 package com.osi.conquest.domain.impl.unit;
 
-
 import com.osi.conquest.domain.Transport;
 import com.osi.conquest.domain.Unit;
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-
 /**
  * @author Paul Folbrecht
  */
 public abstract class SeaTransport extends SeaUnit implements Transport {
+
     private static final long serialVersionUID = 1L;
     protected List _transportedUnits = new ArrayList();
-
 
     /**
      *
      */
-    public SeaTransport() {
-    }
+    public SeaTransport() {}
 
     /**
      *
@@ -80,7 +76,7 @@ public abstract class SeaTransport extends SeaUnit implements Transport {
      *
      */
     public boolean doesUnitFit(Unit unit) {
-        return (getTransportedUnitWeight() + unit.getUnitTypeData().getTransportWeight() <= getMaxUnitWeight());
+        return getTransportedUnitWeight() + unit.getUnitTypeData().getTransportWeight() <= getMaxUnitWeight();
     }
 
     /**
@@ -143,8 +139,9 @@ public abstract class SeaTransport extends SeaUnit implements Transport {
      *
      */
     public boolean loadUnit(Unit unit) {
-        if (_transportedUnits.contains(unit))
-            throw new RuntimeException("Tried to load a unit onto a transport that is already aboard.");
+        if (_transportedUnits.contains(unit)) throw new RuntimeException(
+            "Tried to load a unit onto a transport that is already aboard."
+        );
 
         if (!doesUnitFit(unit)) return false;
 
@@ -160,8 +157,9 @@ public abstract class SeaTransport extends SeaUnit implements Transport {
      *
      */
     public void unloadUnit(Unit unit) {
-        if (!_transportedUnits.contains(unit))
-            throw new RuntimeException("Tried to remove a unit from transport that is not aboard.");
+        if (!_transportedUnits.contains(unit)) throw new RuntimeException(
+            "Tried to remove a unit from transport that is not aboard."
+        );
 
         _transportedUnits.remove(unit);
         unit.notInTransport();

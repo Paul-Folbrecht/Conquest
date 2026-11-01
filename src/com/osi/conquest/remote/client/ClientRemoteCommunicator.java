@@ -1,6 +1,5 @@
 package com.osi.conquest.remote.client;
 
-
 import com.osi.conquest.ConquestException;
 import com.osi.conquest.Logger;
 import com.osi.conquest.PropertyManager;
@@ -11,11 +10,11 @@ import com.osi.conquest.domain.Player;
 import com.osi.conquest.ui.MainWindow;
 import com.osi.util.Endpoint;
 
-
 /**
  * @author Paul Folbrecht
  */
 public abstract class ClientRemoteCommunicator {
+
     protected static ClientRemoteCommunicator[] _instances;
 
     /**
@@ -52,8 +51,7 @@ public abstract class ClientRemoteCommunicator {
     /**
      *
      */
-    public abstract boolean connectToHost(Endpoint endpoint, String playerName)
-            throws ConquestException;
+    public abstract boolean connectToHost(Endpoint endpoint, String playerName) throws ConquestException;
 
     /**
      *
@@ -87,6 +85,7 @@ public abstract class ClientRemoteCommunicator {
      * machine.  It should be used for both new and restored games.
      */
     protected static class InitGameWorker implements Runnable {
+
         protected ConquestMap _map;
         protected Player[] _players;
         protected int _playerId;
@@ -108,6 +107,7 @@ public abstract class ClientRemoteCommunicator {
      * activating the specified player in the process.
      */
     protected static class ActivatePlayerWorker implements Runnable {
+
         protected int _index;
         protected Player[] _players;
 
@@ -127,6 +127,7 @@ public abstract class ClientRemoteCommunicator {
      * This worker displays a message sent from another player or the host.
      */
     protected static class PlayerMessageWorker implements Runnable {
+
         protected String _from;
         protected String _msg;
 
@@ -144,8 +145,8 @@ public abstract class ClientRemoteCommunicator {
      *
      */
     protected static class HostQuittingWorker implements Runnable {
-        public HostQuittingWorker() {
-        }
+
+        public HostQuittingWorker() {}
 
         public void run() {
             MainWindow.getInstance().displayPlayerMessage("Host", "The Host has ended the game.");
@@ -157,8 +158,8 @@ public abstract class ClientRemoteCommunicator {
      *
      */
     protected static class LocalPlayerEliminatedWorker implements Runnable {
-        public LocalPlayerEliminatedWorker() {
-        }
+
+        public LocalPlayerEliminatedWorker() {}
 
         public void run() {
             MainWindow.getInstance().endCurrentGame(false);

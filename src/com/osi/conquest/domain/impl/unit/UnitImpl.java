@@ -1,20 +1,18 @@
 package com.osi.conquest.domain.impl.unit;
 
-
 import com.osi.conquest.Logger;
 import com.osi.conquest.domain.*;
 import com.osi.conquest.domain.event.UnitActionListener;
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-
 /**
  * @author Paul Folbrecht
  */
 public abstract class UnitImpl implements Unit {
+
     private static final long serialVersionUID = 2L;
     protected static final int ON_SENTRY = 1;
     protected static final int FACING_RIGHT = 2;
@@ -94,7 +92,7 @@ public abstract class UnitImpl implements Unit {
      *
      */
     public boolean equals(Object object) {
-        return (object instanceof Unit && ((UnitImpl) object).getId() == getId());
+        return object instanceof Unit && ((UnitImpl) object).getId() == getId();
     }
 
     /**
@@ -131,7 +129,7 @@ public abstract class UnitImpl implements Unit {
      */
     public String[][] getDisplayableInfo() {
         String[][] data = new String[5][2];
-        String[] labels = {"Type:", "Id:", "Hit Points:", "Movement:", "Orders:"};
+        String[] labels = { "Type:", "Id:", "Hit Points:", "Movement:", "Orders:" };
         Unit.UnitTypeData typeData = getUnitTypeData();
 
         for (int row = 0; row < data.length; row++) {
@@ -159,14 +157,14 @@ public abstract class UnitImpl implements Unit {
      *
      */
     public boolean isOnSentry() {
-        return ((_flags & ON_SENTRY) != 0);
+        return (_flags & ON_SENTRY) != 0;
     }
 
     /**
      *
      */
     public boolean isFacingRight() {
-        return ((_flags & FACING_RIGHT) != 0);
+        return (_flags & FACING_RIGHT) != 0;
     }
 
     /**
@@ -195,7 +193,7 @@ public abstract class UnitImpl implements Unit {
      */
     public Rectangle getSightArea() {
         int range = getUnitTypeData().getMaxSightRange();
-        return new Rectangle((_location.x - range), (_location.y - range), range * 2 + 1, range * 2 + 1);
+        return new Rectangle(_location.x - range, _location.y - range, range * 2 + 1, range * 2 + 1);
     }
 
     /**
@@ -271,28 +269,31 @@ public abstract class UnitImpl implements Unit {
      *
      */
     public int getRangeTo(Point location) {
-        return (int) Math.max(Math.abs(_location.getX() - location.getX()), Math.abs(_location.getY() - location.getY()));
+        return (int) Math.max(
+            Math.abs(_location.getX() - location.getX()),
+            Math.abs(_location.getY() - location.getY())
+        );
     }
 
     /**
      *
      */
     public boolean isAdjacentTo(Point location) {
-        return (getRangeTo(location) <= 1);
+        return getRangeTo(location) <= 1;
     }
 
     /**
      *
      */
     public boolean isWithinSightRange(OwnableObject object) {
-        return (getRangeTo(object.getLocation()) <= getUnitTypeData().getSightRange(object.getClass()));
+        return getRangeTo(object.getLocation()) <= getUnitTypeData().getSightRange(object.getClass());
     }
 
     /**
      *
      */
     public boolean hasMoveTo() {
-        return (_path != null);
+        return _path != null;
     }
 
     /**
@@ -306,14 +307,19 @@ public abstract class UnitImpl implements Unit {
      *
      */
     public boolean isOnPatrol() {
-        return ((_flags & ON_PATROL) != 0);
+        return (_flags & ON_PATROL) != 0;
     }
 
     /**
      *
      */
     public boolean isInTransport(MapSquare square) {
-        return square.getUnit() != null && square.getUnit() != this && square.getUnit().getOwner() == getOwner() && square.getUnit() instanceof Transport;
+        return (
+            square.getUnit() != null &&
+            square.getUnit() != this &&
+            square.getUnit().getOwner() == getOwner() &&
+            square.getUnit() instanceof Transport
+        );
     }
 
     /**
@@ -374,14 +380,14 @@ public abstract class UnitImpl implements Unit {
      *
      */
     public void onPatrol() {
-        _flags = (_flags | ON_PATROL);
+        _flags = _flags | ON_PATROL;
     }
 
     /**
      *
      */
     public void offPatrol() {
-        _flags = (_flags & ~ON_PATROL);
+        _flags = _flags & ~ON_PATROL;
         clearMoveTo();
     }
 
@@ -389,14 +395,14 @@ public abstract class UnitImpl implements Unit {
      *
      */
     public void inTransport() {
-        _flags = (_flags | IN_TRANSPORT);
+        _flags = _flags | IN_TRANSPORT;
     }
 
     /**
      *
      */
     public void notInTransport() {
-        _flags = (_flags & ~IN_TRANSPORT);
+        _flags = _flags & ~IN_TRANSPORT;
         unSentry();
     }
 
@@ -414,7 +420,7 @@ public abstract class UnitImpl implements Unit {
      */
     public void sentry() {
         clearOrders();
-        _flags = (_flags | ON_SENTRY);
+        _flags = _flags | ON_SENTRY;
         setMovementPoints(0);
     }
 
@@ -422,7 +428,7 @@ public abstract class UnitImpl implements Unit {
      *
      */
     public void unSentry() {
-        _flags = (_flags & ~ON_SENTRY);
+        _flags = _flags & ~ON_SENTRY;
     }
 
     /**
@@ -503,7 +509,10 @@ public abstract class UnitImpl implements Unit {
                         // if units of the mirage type in that square are "revealed" to any enemy unit, the mirage disappears, because the player
                         // would know if there's really such a unit there or not.
                         OwnableObject mirage = getOwner().getLastSightedObject(point);
-                        if (mirage != null && isWithinSightRange(mirage)) getOwner().updateLastSightedObject(point, null);
+                        if (mirage != null && isWithinSightRange(mirage)) getOwner().updateLastSightedObject(
+                            point,
+                            null
+                        );
                         if (updateUI) getController().modelChanged(square);
                     }
                 }
@@ -524,7 +533,7 @@ public abstract class UnitImpl implements Unit {
     public boolean canMoveTo(Point location) {
         MapSquare square = getController().getMap().getSquareAt(location);
 
-        if (square.getCity() != null) return (square.getCity().getOwner() == _owner);
+        if (square.getCity() != null) return square.getCity().getOwner() == _owner;
         else return true;
     }
 
@@ -623,7 +632,7 @@ public abstract class UnitImpl implements Unit {
         if (getMovementPoints() > 0) getController().setSelectedUnit(this);
         else getController().setSelectedUnit(null);
 
-        return (getMovementPoints() <= 0);
+        return getMovementPoints() <= 0;
     }
 
     /**
@@ -652,7 +661,7 @@ public abstract class UnitImpl implements Unit {
         // "attack" it; in effect A bumps into B which then attacks.  This is most relevant in the
         // case of subs run into by unsuspecting transports or other subsurface-blind sea units.
         if (getUnitTypeData().getSightRange(defender.getClass()) == 0) {
-            if (defender.getUnitTypeData().getSightRange(getClass()) != 0) return !(defender.attack(this));
+            if (defender.getUnitTypeData().getSightRange(getClass()) != 0) return !defender.attack(this);
         }
 
         result = attackImpl((UnitImpl) defender);
@@ -671,7 +680,13 @@ public abstract class UnitImpl implements Unit {
             return result;
         } else {
             // Each time a city is attacked a new Infantry unit is constructed to represent it in combat.
-            boolean result = attack(ConquestFactory.createUnit("com.osi.conquest.domain.impl.unit.Infantry", city.getOwner(), city.getLocation()));
+            boolean result = attack(
+                ConquestFactory.createUnit(
+                    "com.osi.conquest.domain.impl.unit.Infantry",
+                    city.getOwner(),
+                    city.getLocation()
+                )
+            );
 
             if (result) {
                 Player loser = city.getOwner();
@@ -697,7 +712,7 @@ public abstract class UnitImpl implements Unit {
      *
      */
     public void repair(int amount) {
-        boolean didRepair = (getHitPoints() < getUnitTypeData().getMaxHitPoints());
+        boolean didRepair = getHitPoints() < getUnitTypeData().getMaxHitPoints();
 
         _hitPoints += amount;
         if (_hitPoints > getUnitTypeData().getMaxHitPoints()) _hitPoints = getUnitTypeData().getMaxHitPoints();
@@ -818,7 +833,7 @@ public abstract class UnitImpl implements Unit {
         double attackFactor = attacker.getAttackFactor(defender);
         double defenseFactor = defender.getDefenseFactor(attacker);
         double oddsOfHit = attackFactor / (attackFactor + defenseFactor);
-        double roll = (getRandom() % (attackFactor + defenseFactor));
+        double roll = getRandom() % (attackFactor + defenseFactor);
         boolean hit = roll >= oddsOfHit;
 
         Logger.info(attacker + " firing at " + defender);
@@ -830,7 +845,9 @@ public abstract class UnitImpl implements Unit {
         if (hit) {
             int damage = attacker.getUnitTypeData().getDamage();
             defender.damage(damage);
-            Logger.info("Hit scored; defender loses " + damage + " hit points; " + defender.getHitPoints() + " remaining.");
+            Logger.info(
+                "Hit scored; defender loses " + damage + " hit points; " + defender.getHitPoints() + " remaining."
+            );
             if (defender.getHitPoints() <= 0) {
                 getController().unitDefeated(attacker, defender);
                 return true;
@@ -907,7 +924,10 @@ public abstract class UnitImpl implements Unit {
         if (!canMoveTo(location)) return new MoveToReturnImpl(false, Unit.MoveToReturn.ILLEGAL_SQUARE);
 
         // Check for sufficient movement points.
-        if (getMovementPoints() < getUnitTypeData().getMovementCost(newSquare.getClass()) && getUnitTypeData().getMovementCost(newSquare.getClass()) < MapSquare.ILLEGAL_MOVE) {
+        if (
+            getMovementPoints() < getUnitTypeData().getMovementCost(newSquare.getClass()) &&
+            getUnitTypeData().getMovementCost(newSquare.getClass()) < MapSquare.ILLEGAL_MOVE
+        ) {
             setMovementPoints(0);
             return new MoveToReturnImpl(false, Unit.MoveToReturn.OUT_OF_MOVEMENT);
         }
@@ -918,10 +938,16 @@ public abstract class UnitImpl implements Unit {
             if (unit.getOwner().equals(_owner)) {
                 if (unit instanceof Transport && ((Transport) unit).canTransport(this)) {
                     Transport transport = (Transport) unit;
-                    if (!transport.doesUnitFit(this)) return new MoveToReturnImpl(false, Unit.MoveToReturn.FAILED_FULL_TRANSPORT);
+                    if (!transport.doesUnitFit(this)) return new MoveToReturnImpl(
+                        false,
+                        Unit.MoveToReturn.FAILED_FULL_TRANSPORT
+                    );
                 } else {
                     // Friendly unit in the way.  See if we can move over it.
-                    if (!checkOverlappingMove(newSquare)) return new MoveToReturnImpl(false, Unit.MoveToReturn.FAILED_FRIENDLY_UNIT);
+                    if (!checkOverlappingMove(newSquare)) return new MoveToReturnImpl(
+                        false,
+                        Unit.MoveToReturn.FAILED_FRIENDLY_UNIT
+                    );
                 }
             } else return new MoveToReturnImpl(false, Unit.MoveToReturn.FAILED_ENEMY_UNIT);
         }
@@ -987,6 +1013,7 @@ public abstract class UnitImpl implements Unit {
      *
      */
     protected static class MoveToReturnImpl implements Unit.MoveToReturn {
+
         private boolean _success;
         private int _detail;
 
@@ -1007,7 +1034,8 @@ public abstract class UnitImpl implements Unit {
     /**
      *
      */
-    public static abstract class UnitTypeDataImpl implements Unit.UnitTypeData {
+    public abstract static class UnitTypeDataImpl implements Unit.UnitTypeData {
+
         public int getMaxSightRange() {
             return 2;
         }

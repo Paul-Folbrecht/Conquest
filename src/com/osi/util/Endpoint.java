@@ -1,10 +1,8 @@
 package com.osi.util;
 
-
 import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.Socket;
-
 
 /**
  * Encapsulates a TCP endpoint- host and port.
@@ -12,6 +10,7 @@ import java.net.Socket;
  * @author Paul Folbrecht
  */
 public class Endpoint implements Serializable {
+
     protected InetAddress _address;
     protected int _port;
 
@@ -50,7 +49,10 @@ public class Endpoint implements Serializable {
     public boolean equals(Object object) {
         if (object instanceof Endpoint) {
             Endpoint other = (Endpoint) object;
-            return (other.getAddress().getHostAddress().equals(getAddress().getHostAddress()) && other.getPort() == getPort());
+            return (
+                other.getAddress().getHostAddress().equals(getAddress().getHostAddress()) &&
+                other.getPort() == getPort()
+            );
         }
 
         return false;

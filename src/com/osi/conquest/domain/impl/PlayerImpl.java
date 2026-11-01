@@ -1,20 +1,17 @@
 package com.osi.conquest.domain.impl;
 
-
 import com.osi.conquest.Logger;
 import com.osi.conquest.domain.*;
-
-
 import java.awt.*;
 import java.io.Serializable;
 import java.util.*;
 import java.util.List;
 
-
 /**
  * @author Paul Folbrecht
  */
 public class PlayerImpl implements Player {
+
     private static final long serialVersionUID = 2L;
     protected static Color[] _colors = new Color[Player.MAX_PLAYERS];
     protected List _units = new ArrayList();
@@ -79,8 +76,12 @@ public class PlayerImpl implements Player {
         int height = (int) getController().getMap().getSize().getHeight();
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                if (_lastSightedObjects[x][y] != null) Logger.info("Last sighted object at " + x + ", " + y + ": " + _lastSightedObjects[x][y]);
-                if (_currentSightedObjects[x][y] != null) Logger.info("Current sighted object at " + x + ", " + y + ": " + _currentSightedObjects[x][y]);
+                if (_lastSightedObjects[x][y] != null) Logger.info(
+                    "Last sighted object at " + x + ", " + y + ": " + _lastSightedObjects[x][y]
+                );
+                if (_currentSightedObjects[x][y] != null) Logger.info(
+                    "Current sighted object at " + x + ", " + y + ": " + _currentSightedObjects[x][y]
+                );
             }
         }
     }
@@ -103,7 +104,7 @@ public class PlayerImpl implements Player {
      *
      */
     public boolean equals(Object other) {
-        return (other instanceof Player && ((Player) other).getId() == getId());
+        return other instanceof Player && ((Player) other).getId() == getId();
     }
 
     /**
@@ -220,7 +221,8 @@ public class PlayerImpl implements Player {
 
         while (it.hasNext()) {
             City city = (City) it.next();
-            if (city.getUnitTypeInProduction().equals(unitClass) && city.getTurnsTillCompletion() < turns) turns = city.getTurnsTillCompletion();
+            if (city.getUnitTypeInProduction().equals(unitClass) && city.getTurnsTillCompletion() < turns) turns =
+                city.getTurnsTillCompletion();
         }
 
         if (turns == 1000) turns = 0;
@@ -349,8 +351,7 @@ public class PlayerImpl implements Player {
     /**
      *
      */
-    public void onDeactivate() {
-    }
+    public void onDeactivate() {}
 
     /**
      *
@@ -427,7 +428,10 @@ public class PlayerImpl implements Player {
     }
 
     public boolean isObjectSighted(OwnableObject object, Point location) {
-        return _currentSightedObjects[location.x][location.y] != null && _currentSightedObjects[location.x][location.y].equals(object);
+        return (
+            _currentSightedObjects[location.x][location.y] != null &&
+            _currentSightedObjects[location.x][location.y].equals(object)
+        );
     }
 
     /**
@@ -441,7 +445,7 @@ public class PlayerImpl implements Player {
      *
      */
     public boolean hasMovementReports() {
-        return (_movementReports.size() > 0);
+        return _movementReports.size() > 0;
     }
 
     /**
@@ -501,16 +505,21 @@ public class PlayerImpl implements Player {
      */
     protected void sortUnits() {
         class UnitPositionComparator implements Comparator {
+
             private Point _origin = new Point(0, 0);
 
             public int compare(Object one, Object two) {
-                int rangeOne = getController().getMap().getRange(_origin, ((Unit) one).getLocation());
-                int rangeTwo = getController().getMap().getRange(_origin, ((Unit) two).getLocation());
-                return (rangeOne - rangeTwo);
+                int rangeOne = getController()
+                    .getMap()
+                    .getRange(_origin, ((Unit) one).getLocation());
+                int rangeTwo = getController()
+                    .getMap()
+                    .getRange(_origin, ((Unit) two).getLocation());
+                return rangeOne - rangeTwo;
             }
 
             public boolean equals(Object other) {
-                return (other instanceof UnitPositionComparator);
+                return other instanceof UnitPositionComparator;
             }
         }
 
@@ -596,6 +605,7 @@ public class PlayerImpl implements Player {
      *
      */
     protected class Message implements Serializable {
+
         public String _from;
         public String _msg;
 

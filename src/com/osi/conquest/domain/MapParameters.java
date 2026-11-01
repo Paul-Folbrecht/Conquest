@@ -1,14 +1,13 @@
 package com.osi.conquest.domain;
 
-
 import java.awt.*;
 import java.io.Serializable;
-
 
 /**
  * @author Paul Folbrecht
  */
 public class MapParameters implements Serializable {
+
     public Dimension size;
     public boolean terrainHidden;
     public boolean equalizeCities;

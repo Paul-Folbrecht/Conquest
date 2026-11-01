@@ -1,6 +1,5 @@
 package com.osi.conquest.ui.renderers;
 
-
 import com.osi.conquest.ConquestException;
 import com.osi.conquest.ConquestRuntimeException;
 import com.osi.conquest.Logger;
@@ -14,17 +13,16 @@ import com.osi.conquest.domain.impl.unit.UnitImpl;
 import com.osi.conquest.ui.MainWindow;
 import com.osi.util.ImageUtils;
 import com.osi.util.StringUtils;
-
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
-
 /**
  * @author Paul Folbrecht
  */
 public class UnitRenderer implements Unit.Renderer {
+
     protected static HashMap _images = new HashMap();
     protected static HashMap _mirageImages = new HashMap();
     protected static Font _font;
@@ -67,9 +65,31 @@ public class UnitRenderer implements Unit.Renderer {
         int y = (int) _unit.getLocation().getY() * MapSquare.HEIGHT;
 
         if (_unit.isFacingRight()) {
-            graphics.drawImage(image,x + MapSquare.WIDTH, y, x, y + MapSquare.HEIGHT, 0, 0, MapSquare.WIDTH, MapSquare.HEIGHT, null);
+            graphics.drawImage(
+                image,
+                x + MapSquare.WIDTH,
+                y,
+                x,
+                y + MapSquare.HEIGHT,
+                0,
+                0,
+                MapSquare.WIDTH,
+                MapSquare.HEIGHT,
+                null
+            );
         } else {
-            graphics.drawImage(image, x, y, x + MapSquare.WIDTH, y + MapSquare.HEIGHT, 0, 0, MapSquare.WIDTH, MapSquare.HEIGHT, null);
+            graphics.drawImage(
+                image,
+                x,
+                y,
+                x + MapSquare.WIDTH,
+                y + MapSquare.HEIGHT,
+                0,
+                0,
+                MapSquare.WIDTH,
+                MapSquare.HEIGHT,
+                null
+            );
         }
 
         renderPlayerMarker(graphics);
@@ -77,7 +97,7 @@ public class UnitRenderer implements Unit.Renderer {
 
         if (_unit.isOnSentry()) {
             Rectangle2D metrics = _font.getStringBounds("z", graphics.getFontRenderContext());
-//[[
+            //[[
             graphics.setFont(_font);
             graphics.setPaint(Color.white);
             graphics.drawString("z", square.getCenterPixelPoint().x, square.getCenterPixelPoint().y);
@@ -104,16 +124,15 @@ public class UnitRenderer implements Unit.Renderer {
     protected void renderHitPointBar(Graphics2D graphics) {
         int x = (int) _unit.getLocation().getX() * MapSquare.WIDTH;
         int y = (int) _unit.getLocation().getY() * MapSquare.HEIGHT;
-        double hitPointRatio = (double) _unit.getHitPoints() /
-                (double) _unit.getUnitTypeData().getMaxHitPoints();
-        int maxBarLength = (MapSquare.WIDTH / 2) - 1;
+        double hitPointRatio = (double) _unit.getHitPoints() / (double) _unit.getUnitTypeData().getMaxHitPoints();
+        int maxBarLength = MapSquare.WIDTH / 2 - 1;
         Rectangle rect;
         Color color = Color.green;
 
         if (hitPointRatio <= .33f) color = Color.red;
         else if (hitPointRatio <= .67f) color = Color.yellow;
 
-        rect = new Rectangle((x + MapSquare.WIDTH) - maxBarLength - 1, y, (int) (maxBarLength * hitPointRatio), 2);
+        rect = new Rectangle(x + MapSquare.WIDTH - maxBarLength - 1, y, (int) (maxBarLength * hitPointRatio), 2);
         graphics.setPaint(color);
         graphics.setStroke(new BasicStroke(1));
         graphics.fill(rect);
@@ -145,13 +164,23 @@ public class UnitRenderer implements Unit.Renderer {
             Image image;
 
             image = PropertyManager.getImage(StringUtils.stripClassName(unitClass));
-            image = ImageUtils.getTintedImage(MainWindow.getInstance().getGraphicsConfiguration(),
-                    image, MapSquare.WIDTH, MapSquare.HEIGHT, PlayerImpl.getColor(playerId));
+            image = ImageUtils.getTintedImage(
+                MainWindow.getInstance().getGraphicsConfiguration(),
+                image,
+                MapSquare.WIDTH,
+                MapSquare.HEIGHT,
+                PlayerImpl.getColor(playerId)
+            );
             images.put(unitClass, image);
 
             image = PropertyManager.getImage(StringUtils.stripClassName(unitClass));
-            image = ImageUtils.getTintedImage(MainWindow.getInstance().getGraphicsConfiguration(),
-                    image, MapSquare.WIDTH, MapSquare.HEIGHT, PlayerImpl.getColor(playerId));
+            image = ImageUtils.getTintedImage(
+                MainWindow.getInstance().getGraphicsConfiguration(),
+                image,
+                MapSquare.WIDTH,
+                MapSquare.HEIGHT,
+                PlayerImpl.getColor(playerId)
+            );
             mirageImages.put(unitClass, ImageUtils.convertToGrayScale((BufferedImage) image));
         }
     }
@@ -196,7 +225,9 @@ public class UnitRenderer implements Unit.Renderer {
         BufferedImage image = null;
 
         if (images != null) image = (BufferedImage) images.get(_unit.getClass());
-        if (image == null) throw new ConquestRuntimeException("No " + _unit.getClass() + " mirage image for player " + _unit.getOwner().getId());
+        if (image == null) throw new ConquestRuntimeException(
+            "No " + _unit.getClass() + " mirage image for player " + _unit.getOwner().getId()
+        );
 
         return image;
     }

@@ -1,6 +1,5 @@
 package com.osi.conquest.remote.host.socket;
 
-
 import com.osi.conquest.ConquestException;
 import com.osi.conquest.ConquestRuntimeException;
 import com.osi.conquest.Logger;
@@ -13,17 +12,16 @@ import com.osi.conquest.remote.host.Host;
 import com.osi.conquest.remote.socket.MessageReceiver;
 import com.osi.conquest.remote.socket.SocketUtils;
 import com.osi.conquest.ui.MainWindow;
-
-import javax.swing.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
-
+import javax.swing.*;
 
 /**
  * @author Paul Folbrecht
  */
 public class SocketHost extends Host {
+
     /**
      * The port we listen for incoming requests on.
      */
@@ -64,7 +62,7 @@ public class SocketHost extends Host {
      *
      */
     public void waitForPlayers(PlayerConnectListener listener, Player[] players, boolean isNewGame)
-            throws ConquestException {
+        throws ConquestException {
         // Start listener thread that will run till all players are connected.
         Logger.info("Waiting for remote players to connect..");
         new Thread(new ConnectListener(listener, players, isNewGame)).start();
@@ -100,17 +98,22 @@ public class SocketHost extends Host {
      *
      */
     public void activateRemotePlayer(Player player) throws ConquestException {
-        SocketUtils.sendMessage(getSocket(player),
-                new Object[]{new Integer(MessageIDs.ACTIVATE_PLAYER),
-                        new Integer(getController().getCurrentPlayer().getId()), getController().getPlayers()});
+        SocketUtils.sendMessage(getSocket(player), new Object[] {
+            new Integer(MessageIDs.ACTIVATE_PLAYER),
+            new Integer(getController().getCurrentPlayer().getId()),
+            getController().getPlayers(),
+        });
     }
 
     /**
      *
      */
     public void sendPlayerMessage(String from, Player to, String msg) throws ConquestException {
-        SocketUtils.sendMessage(getSocket(to),
-                new Object[]{new Integer(MessageIDs.CLIENT_PLAYER_MESSAGE), from, msg});
+        SocketUtils.sendMessage(getSocket(to), new Object[] {
+            new Integer(MessageIDs.CLIENT_PLAYER_MESSAGE),
+            from,
+            msg,
+        });
     }
 
     /**
@@ -124,7 +127,7 @@ public class SocketHost extends Host {
                 getReceiver(players[index]).stopListening();
             }
         }
-        sendMessageToAllClients(new Object[]{new Integer(MessageIDs.HOST_QUITTING)});
+        sendMessageToAllClients(new Object[] { new Integer(MessageIDs.HOST_QUITTING) });
     }
 
     /**
@@ -132,8 +135,7 @@ public class SocketHost extends Host {
      */
     public void sendYouEliminatedMessage(Player player) throws ConquestException {
         getReceiver(player).stopListening();
-        SocketUtils.sendMessage(getSocket(player),
-                new Object[]{new Integer(MessageIDs.YOU_ELIMINATED)});
+        SocketUtils.sendMessage(getSocket(player), new Object[] { new Integer(MessageIDs.YOU_ELIMINATED) });
     }
 
     /**
@@ -180,6 +182,7 @@ public class SocketHost extends Host {
      *
      */
     protected class InitClientsWorker implements Runnable {
+
         protected Player[] _players;
 
         public InitClientsWorker(Player[] players) {
@@ -190,9 +193,12 @@ public class SocketHost extends Host {
             try {
                 for (int index = 0; index < _players.length; index++) {
                     if (_players[index].isLocalToHost() == false) {
-                        SocketUtils.sendMessage(getSocket(_players[index]), new Object[]
-                                {new Integer(MessageIDs.INIT_GAME), getController().getMapFilename(), _players,
-                                        new Integer(_players[index].getId())});
+                        SocketUtils.sendMessage(getSocket(_players[index]), new Object[] {
+                            new Integer(MessageIDs.INIT_GAME),
+                            getController().getMapFilename(),
+                            _players,
+                            new Integer(_players[index].getId()),
+                        });
                     }
                 }
             } catch (ConquestException e) {
@@ -205,6 +211,7 @@ public class SocketHost extends Host {
      *
      */
     protected abstract class Listener implements Runnable {
+
         protected boolean _done = false;
 
         public void run() {
@@ -229,6 +236,7 @@ public class SocketHost extends Host {
      *
      */
     protected class ConnectListener extends Listener {
+
         protected PlayerConnectListener _listener;
         protected Player[] _players;
         protected boolean _isNewGame;
@@ -252,7 +260,7 @@ public class SocketHost extends Host {
 
             player = getPlayer((String) message[0]);
             if (player != null) {
-                SocketUtils.sendMessage(socket, new Object[]{"ok"});
+                SocketUtils.sendMessage(socket, new Object[] { "ok" });
                 startReceiver(socket, player);
 
                 // Check if we're done.
@@ -262,7 +270,7 @@ public class SocketHost extends Host {
                 player.connected();
                 _listener.playerConnected(player, _players, _done);
             } else {
-                SocketUtils.sendMessage(socket, new Object[]{"rejected"});
+                SocketUtils.sendMessage(socket, new Object[] { "rejected" });
             }
         }
 
@@ -282,8 +290,7 @@ public class SocketHost extends Host {
                     }
                 } else {
                     // If game is being restored, search for a player with the passed name.
-                    if (_players[index].getName().equalsIgnoreCase(name) &&
-                            _players[index].isLocalToHost() == false) {
+                    if (_players[index].getName().equalsIgnoreCase(name) && _players[index].isLocalToHost() == false) {
                         return _players[index];
                     }
                 }
@@ -297,6 +304,7 @@ public class SocketHost extends Host {
      *
      */
     protected class NextPlayerHandler implements MessageReceiver.MessageHandler {
+
         public void handleMessage(MessageReceiver receiver, Object[] message) throws Exception {
             SwingUtilities.invokeLater(new NextPlayerWorker((Player[]) message[1]));
         }
@@ -306,6 +314,7 @@ public class SocketHost extends Host {
      *
      */
     protected class PlayerMessageHandler implements MessageReceiver.MessageHandler {
+
         public void handleMessage(MessageReceiver receiver, Object[] message) throws Exception {
             Player to = getController().getPlayerWithId(((Integer) message[2]).intValue());
             SwingUtilities.invokeLater(new PlayerMessageWorker((String) message[1], to, (String) message[3]));
@@ -316,6 +325,7 @@ public class SocketHost extends Host {
      *
      */
     protected class PlayerQuittingHandler implements MessageReceiver.MessageHandler {
+
         public void handleMessage(MessageReceiver receiver, Object[] message) throws Exception {
             Player player = getController().getPlayerWithId(((Integer) message[1]).intValue());
             SwingUtilities.invokeLater(new PlayerQuittingWorker(player));
@@ -326,6 +336,7 @@ public class SocketHost extends Host {
      *
      */
     protected class PlayerEliminatedHandler implements MessageReceiver.MessageHandler {
+
         public void handleMessage(MessageReceiver receiver, Object[] message) throws Exception {
             Player player = getController().getPlayerWithId(((Integer) message[1]).intValue());
             SwingUtilities.invokeLater(new PlayerEliminatedWorker(player));
@@ -336,11 +347,15 @@ public class SocketHost extends Host {
      *
      */
     protected class SendMapHandler implements MessageReceiver.MessageHandler {
+
         public void handleMessage(MessageReceiver receiver, Object[] message) throws Exception {
             Player player = getController().getPlayerWithId(((Integer) message[1]).intValue());
-            SocketUtils.sendMessage(getSocket(player), new Object[]
-                    {new Integer(MessageIDs.SEND_MAP),
-                            getController().getMap(), getController().getPlayers(), new Integer(player.getId())});
+            SocketUtils.sendMessage(getSocket(player), new Object[] {
+                new Integer(MessageIDs.SEND_MAP),
+                getController().getMap(),
+                getController().getPlayers(),
+                new Integer(player.getId()),
+            });
         }
     }
 }

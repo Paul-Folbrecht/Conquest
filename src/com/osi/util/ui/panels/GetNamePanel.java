@@ -1,14 +1,13 @@
 package com.osi.util.ui.panels;
 
-
-import javax.swing.*;
 import java.awt.*;
-
+import javax.swing.*;
 
 /**
  * @author Paul Folbrecht
  */
 public class GetNamePanel extends JPanel {
+
     protected JTextField _name;
 
     /**
@@ -37,8 +36,12 @@ public class GetNamePanel extends JPanel {
      */
     protected void init() {
         setLayout(new FlowLayout(FlowLayout.LEFT));
-        setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("Player Name"),
-                BorderFactory.createRaisedBevelBorder()));
+        setBorder(
+            BorderFactory.createCompoundBorder(
+                BorderFactory.createTitledBorder("Player Name"),
+                BorderFactory.createRaisedBevelBorder()
+            )
+        );
         add(new JLabel("Name: "));
         _name = new JTextField(20);
         add(_name);

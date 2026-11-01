@@ -1,16 +1,15 @@
 package com.osi.util.ui.panels;
 
-
-import javax.swing.*;
 import java.awt.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-
+import javax.swing.*;
 
 /**
  * @author Paul Folbrecht
  */
 public class InetAddressChooserPanel extends JPanel {
+
     protected JComboBox _combo;
 
     /**
@@ -32,8 +31,8 @@ public class InetAddressChooserPanel extends JPanel {
      */
     protected void init() {
         String text =
-                "Your machine has more than one TCP/IP address.  " +
-                        "Please choose the address that will identify your machine.";
+            "Your machine has more than one TCP/IP address.  " +
+            "Please choose the address that will identify your machine.";
 
         setLayout(new GridLayout(2, 1));
         add(new JLabel(text));

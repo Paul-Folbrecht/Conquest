@@ -1,20 +1,18 @@
 package com.osi.conquest.ui.renderers;
 
-
 import com.osi.conquest.ConquestException;
 import com.osi.conquest.Logger;
 import com.osi.conquest.PropertyManager;
 import com.osi.conquest.domain.City;
 import com.osi.conquest.domain.MapSquare;
 import com.osi.util.StringUtils;
-
 import java.awt.*;
-
 
 /**
  * @author Paul Folbrecht
  */
 public class CityRenderer implements City.Renderer {
+
     protected static Image _image;
     protected Rectangle _markerRect = new Rectangle(0, 0, 4, 4);
     protected City _city;

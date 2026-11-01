@@ -1,16 +1,15 @@
 package com.osi.util.ui.panels;
 
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import javax.swing.*;
 
 /**
  * @author Paul Folbrecht
  */
 public class ThreadProgressPanel extends JPanel {
+
     protected String _message;
     protected Thread _thread;
     protected Timer _timer;
@@ -44,6 +43,7 @@ public class ThreadProgressPanel extends JPanel {
      *
      */
     protected class ThreadListener implements ActionListener {
+
         public void actionPerformed(ActionEvent event) {
             _progressBar.setValue(_progressBar.getValue() + 10);
             if (_progressBar.getValue() >= 100) {
@@ -52,8 +52,7 @@ public class ThreadProgressPanel extends JPanel {
 
             if (_thread == null || !_thread.isAlive()) {
                 _timer.stop();
-                SwingUtilities.getAncestorOfClass(JDialog.class, ThreadProgressPanel.this).
-                        setVisible(false);
+                SwingUtilities.getAncestorOfClass(JDialog.class, ThreadProgressPanel.this).setVisible(false);
             }
         }
     }

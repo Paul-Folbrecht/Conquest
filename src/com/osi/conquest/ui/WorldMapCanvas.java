@@ -1,6 +1,5 @@
 package com.osi.conquest.ui;
 
-
 import com.osi.conquest.domain.ConquestFactory;
 import com.osi.conquest.domain.ConquestMap;
 import com.osi.conquest.domain.GameController;
@@ -10,18 +9,16 @@ import com.osi.conquest.ui.event.GameListener;
 import com.osi.conquest.ui.event.ModelChangeListener;
 import com.osi.conquest.ui.renderers.MapSquareRenderer;
 import com.osi.util.ui.DoubleBufferedCanvas;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
+import javax.swing.*;
 
 /**
  * @author Paul Folbrecht
  */
-public class WorldMapCanvas extends DoubleBufferedCanvas implements
-        GameListener, DisplayListener, ModelChangeListener {
+public class WorldMapCanvas extends DoubleBufferedCanvas implements GameListener, DisplayListener, ModelChangeListener {
+
     private Rectangle _areaMarker = new Rectangle(0, 0, 0, 0);
     private boolean initialized = false;
 
@@ -62,10 +59,12 @@ public class WorldMapCanvas extends DoubleBufferedCanvas implements
      *
      */
     public Rectangle toDisplay(Rectangle area) {
-        return new Rectangle(area.x * MapSquareRenderer.THUMBNAIL_SQUARE_WIDTH,
-                area.y * MapSquareRenderer.THUMBNAIL_SQUARE_HEIGHT,
-                area.width * MapSquareRenderer.THUMBNAIL_SQUARE_WIDTH,
-                area.height * MapSquareRenderer.THUMBNAIL_SQUARE_HEIGHT);
+        return new Rectangle(
+            area.x * MapSquareRenderer.THUMBNAIL_SQUARE_WIDTH,
+            area.y * MapSquareRenderer.THUMBNAIL_SQUARE_HEIGHT,
+            area.width * MapSquareRenderer.THUMBNAIL_SQUARE_WIDTH,
+            area.height * MapSquareRenderer.THUMBNAIL_SQUARE_HEIGHT
+        );
     }
 
     /**
@@ -114,8 +113,10 @@ public class WorldMapCanvas extends DoubleBufferedCanvas implements
      */
     public Dimension getWorldMapSize() {
         Dimension mapSize = getController().getMap().getSize();
-        return new Dimension((int) mapSize.getWidth() * MapSquareRenderer.THUMBNAIL_SQUARE_WIDTH,
-                (int) mapSize.getHeight() * MapSquareRenderer.THUMBNAIL_SQUARE_HEIGHT);
+        return new Dimension(
+            (int) mapSize.getWidth() * MapSquareRenderer.THUMBNAIL_SQUARE_WIDTH,
+            (int) mapSize.getHeight() * MapSquareRenderer.THUMBNAIL_SQUARE_HEIGHT
+        );
     }
 
     /**
@@ -187,7 +188,10 @@ public class WorldMapCanvas extends DoubleBufferedCanvas implements
      */
     protected void eraseAreaMarker() {
         Point topLeft = _areaMarker.getLocation();
-        Point bottomRight = new Point(topLeft.x + (int) _areaMarker.getWidth(), topLeft.y + (int) _areaMarker.getHeight());
+        Point bottomRight = new Point(
+            topLeft.x + (int) _areaMarker.getWidth(),
+            topLeft.y + (int) _areaMarker.getHeight()
+        );
         MapSquare topLeftSquare = getSquare(topLeft);
         MapSquare rightBottomSquare = getSquare(bottomRight);
 
@@ -246,10 +250,12 @@ public class WorldMapCanvas extends DoubleBufferedCanvas implements
      *
      */
     protected void paintBackground(Graphics2D graphics, Point topLeft, Point bottomRight) {
-        Rectangle rect = new Rectangle(topLeft.x * MapSquareRenderer.THUMBNAIL_SQUARE_WIDTH,
-                topLeft.y * MapSquareRenderer.THUMBNAIL_SQUARE_HEIGHT,
-                (bottomRight.x - topLeft.x) * MapSquareRenderer.THUMBNAIL_SQUARE_WIDTH,
-                (bottomRight.y - topLeft.y) * MapSquareRenderer.THUMBNAIL_SQUARE_HEIGHT);
+        Rectangle rect = new Rectangle(
+            topLeft.x * MapSquareRenderer.THUMBNAIL_SQUARE_WIDTH,
+            topLeft.y * MapSquareRenderer.THUMBNAIL_SQUARE_HEIGHT,
+            (bottomRight.x - topLeft.x) * MapSquareRenderer.THUMBNAIL_SQUARE_WIDTH,
+            (bottomRight.y - topLeft.y) * MapSquareRenderer.THUMBNAIL_SQUARE_HEIGHT
+        );
         graphics.setPaint(Color.blue);
         graphics.fill(rect);
         graphics.draw(rect);
@@ -270,14 +276,21 @@ public class WorldMapCanvas extends DoubleBufferedCanvas implements
      *
      */
     protected MapSquare getSquare(Point point) {
-        return getController().getMap().getSquareAt(new Point(point.x / MapSquareRenderer.THUMBNAIL_SQUARE_WIDTH,
-                point.y / MapSquareRenderer.THUMBNAIL_SQUARE_HEIGHT));
+        return getController()
+            .getMap()
+            .getSquareAt(
+                new Point(
+                    point.x / MapSquareRenderer.THUMBNAIL_SQUARE_WIDTH,
+                    point.y / MapSquareRenderer.THUMBNAIL_SQUARE_HEIGHT
+                )
+            );
     }
 
     /**
      *
      */
     protected class MouseHandler extends MouseAdapter {
+
         public void mouseClicked(MouseEvent event) {
             if (event.getClickCount() == 2 && MainWindow.getInstance().isGameInProgress()) {
                 scrollMapTo(event.getPoint());

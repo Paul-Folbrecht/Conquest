@@ -1,14 +1,13 @@
 package com.osi.conquest;
 
-
 import java.io.PrintStream;
 import java.io.PrintWriter;
-
 
 /**
  * @author Paul Folbrecht
  */
 public class ConquestRuntimeException extends RuntimeException {
+
     public Exception _cause;
 
     public ConquestRuntimeException(String msg) {

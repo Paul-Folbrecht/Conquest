@@ -1,8 +1,6 @@
 package com.osi.conquest.remote;
 
-
 import com.osi.conquest.domain.Player;
-
 
 /**
  * @author Paul Folbrecht

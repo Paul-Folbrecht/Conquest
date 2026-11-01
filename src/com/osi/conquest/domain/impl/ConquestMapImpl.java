@@ -1,11 +1,9 @@
 package com.osi.conquest.domain.impl;
 
-
 import com.osi.conquest.ConquestRuntimeException;
 import com.osi.conquest.Logger;
 import com.osi.conquest.PropertyManager;
 import com.osi.conquest.domain.*;
-
 import java.awt.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -13,11 +11,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-
 /**
  * @author Paul Folbrecht
  */
 public class ConquestMapImpl implements ConquestMap {
+
     private static final long serialVersionUID = 1L;
     protected List _cities = new ArrayList();
     protected List _cityNames = new ArrayList();
@@ -59,10 +57,12 @@ public class ConquestMapImpl implements ConquestMap {
         for (int x = 0; x < _params.size.getWidth(); x++) {
             for (int y = 0; y < _params.size.getHeight(); y++) {
                 if (clip != null) {
-                    if (((x + 1) * MapSquare.WIDTH >= clip.x) &&
-                            ((x - 1) * MapSquare.WIDTH <= clip.x + clip.getWidth()) &&
-                            ((y + 1) * MapSquare.HEIGHT >= clip.y) &&
-                            ((y - 1) * MapSquare.HEIGHT <= clip.y + clip.getHeight())) {
+                    if (
+                        (x + 1) * MapSquare.WIDTH >= clip.x &&
+                        (x - 1) * MapSquare.WIDTH <= clip.x + clip.getWidth() &&
+                        (y + 1) * MapSquare.HEIGHT >= clip.y &&
+                        (y - 1) * MapSquare.HEIGHT <= clip.y + clip.getHeight()
+                    ) {
                         _mapSquares[x][y].getRenderer().render(graphics, paintUnits);
                     }
                 } else {
@@ -106,14 +106,23 @@ public class ConquestMapImpl implements ConquestMap {
      *
      */
     public Dimension getSizeInPixels() {
-        return new Dimension((int) _params.size.getWidth() * MapSquare.WIDTH, (int) _params.size.getHeight() * MapSquare.HEIGHT);
+        return new Dimension(
+            (int) _params.size.getWidth() * MapSquare.WIDTH,
+            (int) _params.size.getHeight() * MapSquare.HEIGHT
+        );
     }
 
     /**
      *
      */
     public MapSquare getSquareAt(Point location) {
-        if (location != null && location.x >= 0 && location.x < _params.size.getWidth() && location.y >= 0 && location.y < _params.size.getHeight()) {
+        if (
+            location != null &&
+            location.x >= 0 &&
+            location.x < _params.size.getWidth() &&
+            location.y >= 0 &&
+            location.y < _params.size.getHeight()
+        ) {
             return _mapSquares[location.x][location.y];
         }
 
@@ -161,7 +170,10 @@ public class ConquestMapImpl implements ConquestMap {
             // Get a city nearest to one of the corners of the map, based on the player.
             Point point = new Point(0, 0);
 
-            if (player.getId() == 1) point = new Point((int) _params.size.getWidth() - 1, (int) _params.size.getHeight() - 1);
+            if (player.getId() == 1) point = new Point(
+                (int) _params.size.getWidth() - 1,
+                (int) _params.size.getHeight() - 1
+            );
             else if (player.getId() == 2) point = new Point(0, (int) _params.size.getHeight() - 1);
             else if (player.getId() == 3) point = new Point((int) _params.size.getWidth() - 1, 0);
 
@@ -322,8 +334,7 @@ public class ConquestMapImpl implements ConquestMap {
 
             try {
                 name = PropertyManager.getProperty("city.name." + _cityNameIndex++);
-            } catch (ConquestRuntimeException e) {
-            }
+            } catch (ConquestRuntimeException e) {}
 
             if (name == null) {
                 if (_cityNames.size() == 0) Logger.warn("No city names found!");
@@ -347,8 +358,12 @@ public class ConquestMapImpl implements ConquestMap {
 
         // Make each continent.  Break up the map into "zones".  There will be numXZones * numYZones zones, each with exactly one continent.
         // The continents may be large enough, however, to overflow their zones.
-        for (int xZone = (width / continentsPerRowOrCol) / 2; xZone < width; xZone += width / continentsPerRowOrCol) {
-            for (int yZone = (height / continentsPerRowOrCol) / 2; yZone < height; yZone += height / continentsPerRowOrCol) {
+        for (int xZone = width / continentsPerRowOrCol / 2; xZone < width; xZone += width / continentsPerRowOrCol) {
+            for (
+                int yZone = height / continentsPerRowOrCol / 2;
+                yZone < height;
+                yZone += height / continentsPerRowOrCol
+            ) {
                 ArrayList squares = new ArrayList();
                 int x;
                 int y;
@@ -364,7 +379,7 @@ public class ConquestMapImpl implements ConquestMap {
 
                 _mapSquares[x][y] = ConquestFactory.createMapSquare("Plain", new Point(x, y), params.terrainHidden);
                 // "Grow" the continent, starting at the center.
-                int size = ((width + height) / 2) + (getRandom() % params.continentSizeVariance) + 25;
+                int size = (width + height) / 2 + (getRandom() % params.continentSizeVariance) + 25;
                 Point point = new Point(x, y);
                 for (int index = 0; index < size; index++) {
                     point = adjustCoordsRandomly(point);
@@ -391,10 +406,9 @@ public class ConquestMapImpl implements ConquestMap {
     /**
      *
      */
-    protected void addTerrain(String type, ArrayList continentSquares,
-                              MapParameters params, int amount) {
+    protected void addTerrain(String type, ArrayList continentSquares, MapParameters params, int amount) {
         if (getRandom() % 100 <= amount) {
-            int numBlocks = getRandom() % 3 + 1;
+            int numBlocks = (getRandom() % 3) + 1;
             for (int index = 0; index < numBlocks; index++) {
                 // Pick the starting square randomly from the squares in this continent.
                 int squareIndex = getRandom() % continentSquares.size();
@@ -402,7 +416,11 @@ public class ConquestMapImpl implements ConquestMap {
                     MapSquare square = (MapSquare) continentSquares.get(squareIndex);
                     Point location = square.getLocation();
 
-                    _mapSquares[location.x][location.y] = ConquestFactory.createMapSquare(type, square.getLocation(), params.terrainHidden);
+                    _mapSquares[location.x][location.y] = ConquestFactory.createMapSquare(
+                        type,
+                        square.getLocation(),
+                        params.terrainHidden
+                    );
                     continentSquares.set(squareIndex, _mapSquares[location.x][location.y]);
                     squareIndex++;
                     if (squareIndex >= continentSquares.size()) squareIndex = 0;
@@ -624,6 +642,7 @@ public class ConquestMapImpl implements ConquestMap {
      *
      */
     protected class InitWorker implements Runnable {
+
         public void run() {
             init(_params);
         }

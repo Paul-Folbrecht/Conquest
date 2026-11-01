@@ -1,12 +1,9 @@
 package com.osi.conquest.ui.dialogs;
 
-
 import com.osi.conquest.domain.ConquestFactory;
 import com.osi.conquest.domain.Player;
-
-import javax.swing.*;
 import java.awt.*;
-
+import javax.swing.*;
 
 /**
  * Simple panel to allow the user to enter a text message and choose a Player to send it to.
@@ -14,6 +11,7 @@ import java.awt.*;
  * @author Paul Folbrecht
  */
 public class SendPlayerMessagePanel extends JPanel {
+
     protected JTextArea _text;
     protected JComboBox _playerSelection;
     protected Player[] _players;
@@ -82,8 +80,11 @@ public class SendPlayerMessagePanel extends JPanel {
         _text = new JTextArea("", 10, 40);
         _text.setAutoscrolls(true);
         _text.setEditable(true);
-        scroller = new JScrollPane(_text, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scroller = new JScrollPane(
+            _text,
+            JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+            JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
+        );
         scroller.getViewport().setViewSize(new Dimension(300, 200));
 
         return scroller;

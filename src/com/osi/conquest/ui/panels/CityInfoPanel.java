@@ -1,16 +1,14 @@
 package com.osi.conquest.ui.panels;
 
-
 import com.osi.conquest.domain.City;
-
-import javax.swing.*;
 import java.awt.*;
-
+import javax.swing.*;
 
 /**
  * @author Paul Folbrecht
  */
 public class CityInfoPanel extends JPanel {
+
     protected City _city = null;
     protected CityStatsPanel _cityPanel = new CityStatsPanel();
     protected UnitsPanel _unitsPanel = new UnitsPanel(null, false);

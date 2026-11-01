@@ -1,10 +1,10 @@
 package com.osi.conquest.domain.impl.unit;
 
-
 /**
  * @author Paul Folbrecht
  */
 public class Fighter extends AirUnit {
+
     /**
      *
      */
@@ -16,6 +16,7 @@ public class Fighter extends AirUnit {
      *
      */
     public static class UnitTypeDataImpl extends AirUnit.UnitTypeDataImpl {
+
         public String getName() {
             return "Fighter";
         }

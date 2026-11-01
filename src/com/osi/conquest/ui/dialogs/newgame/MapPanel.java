@@ -1,24 +1,22 @@
 package com.osi.conquest.ui.dialogs.newgame;
 
-
 import com.osi.conquest.ConquestException;
 import com.osi.conquest.ConquestRuntimeException;
 import com.osi.conquest.PropertyManager;
 import com.osi.conquest.domain.ConquestFactory;
 import com.osi.conquest.domain.ConquestMap;
 import com.osi.conquest.domain.MapParameters;
-
+import java.awt.*;
+import java.io.File;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.io.File;
-
 
 /**
  * @author Paul Folbrecht
  */
 public class MapPanel extends JPanel {
+
     protected JCheckBox _useExistingMap = new JCheckBox("Use Existing Map: ");
     protected JComboBox _maps;
     protected JCheckBox _terrainHidden = new JCheckBox("Terrain Hidden");
@@ -192,14 +190,10 @@ public class MapPanel extends JPanel {
      */
     protected void loadPrefs() {
         try {
-            _useExistingMap.setSelected(PropertyManager.getPref("mapPanel.useExistingMap").
-                    equalsIgnoreCase("true"));
-            _terrainHidden.setSelected(PropertyManager.getPref("mapPanel.terrainHidden").
-                    equalsIgnoreCase("true"));
-            _equalizeCities.setSelected(PropertyManager.getPref("mapPanel.equalizeCities").
-                    equalsIgnoreCase("true"));
-            _randomStart.setSelected(PropertyManager.getPref("mapPanel.randomStart").
-                    equalsIgnoreCase("true"));
+            _useExistingMap.setSelected(PropertyManager.getPref("mapPanel.useExistingMap").equalsIgnoreCase("true"));
+            _terrainHidden.setSelected(PropertyManager.getPref("mapPanel.terrainHidden").equalsIgnoreCase("true"));
+            _equalizeCities.setSelected(PropertyManager.getPref("mapPanel.equalizeCities").equalsIgnoreCase("true"));
+            _randomStart.setSelected(PropertyManager.getPref("mapPanel.randomStart").equalsIgnoreCase("true"));
             _size.setValue(PropertyManager.getIntPref("mapPanel.size"));
             _continentPositionVariance.setValue(PropertyManager.getIntPref("mapPanel.continentPositionVariance"));
             _continentSizeVariance.setValue(PropertyManager.getIntPref("mapPanel.continentSizeVariance"));
@@ -220,10 +214,8 @@ public class MapPanel extends JPanel {
         PropertyManager.setPref("mapPanel.equalizeCities", "" + _equalizeCities.isSelected());
         PropertyManager.setPref("mapPanel.randomStart", "" + _randomStart.isSelected());
         PropertyManager.setPref("mapPanel.size", "" + _size.getValue());
-        PropertyManager.setPref("mapPanel.continentPositionVariance", "" +
-                _continentPositionVariance.getValue());
-        PropertyManager.setPref("mapPanel.continentSizeVariance", "" +
-                _continentSizeVariance.getValue());
+        PropertyManager.setPref("mapPanel.continentPositionVariance", "" + _continentPositionVariance.getValue());
+        PropertyManager.setPref("mapPanel.continentSizeVariance", "" + _continentSizeVariance.getValue());
         PropertyManager.setPref("mapPanel.amountSwamp", "" + _amountSwamp.getValue());
         PropertyManager.setPref("mapPanel.amountForest", "" + _amountForest.getValue());
         PropertyManager.setPref("mapPanel.amountMountains", "" + _amountMountains.getValue());
@@ -250,6 +242,7 @@ public class MapPanel extends JPanel {
      *
      */
     protected class UseMapChangeHandler implements ChangeListener {
+
         public void stateChanged(ChangeEvent event) {
             setEnablement(_useExistingMap.isSelected());
         }

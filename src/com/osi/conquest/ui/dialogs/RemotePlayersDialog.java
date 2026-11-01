@@ -1,22 +1,20 @@
 package com.osi.conquest.ui.dialogs;
 
-
 import com.osi.conquest.ConquestException;
 import com.osi.conquest.domain.Player;
 import com.osi.conquest.remote.PlayerConnectListener;
 import com.osi.conquest.remote.host.Host;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
-
+import javax.swing.*;
 
 /**
  * @author Paul Folbrecht
  */
 public class RemotePlayersDialog extends JDialog implements PlayerConnectListener {
+
     protected JList _list;
     protected Player[] _players;
     protected boolean _canceled = false;
@@ -26,8 +24,7 @@ public class RemotePlayersDialog extends JDialog implements PlayerConnectListene
     /**
      *
      */
-    public RemotePlayersDialog(Frame owner, Player[] players, boolean isNewGame)
-            throws ConquestException {
+    public RemotePlayersDialog(Frame owner, Player[] players, boolean isNewGame) throws ConquestException {
         super(owner, "Waiting For Remote Players", true);
 
         _players = players;
@@ -76,8 +73,14 @@ public class RemotePlayersDialog extends JDialog implements PlayerConnectListene
         panel.setBorder(BorderFactory.createRaisedBevelBorder());
         panel.add(new JLabel("Connected players:"), BorderLayout.NORTH);
         _list = new JList(new DefaultListModel());
-        panel.add(new JScrollPane(_list, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
+        panel.add(
+            new JScrollPane(
+                _list,
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
+            ),
+            BorderLayout.CENTER
+        );
 
         return panel;
     }
@@ -108,6 +111,7 @@ public class RemotePlayersDialog extends JDialog implements PlayerConnectListene
      *
      */
     protected class RefreshPlayersAction implements ActionListener {
+
         public void actionPerformed(ActionEvent event) {
             synchronized (_players) {
                 Vector names = new Vector();
@@ -129,6 +133,7 @@ public class RemotePlayersDialog extends JDialog implements PlayerConnectListene
      *
      */
     protected class StartGameAction implements ActionListener {
+
         public void actionPerformed(ActionEvent event) {
             setVisible(false);
         }
@@ -138,6 +143,7 @@ public class RemotePlayersDialog extends JDialog implements PlayerConnectListene
      *
      */
     protected class CancelAction implements ActionListener {
+
         public void actionPerformed(ActionEvent event) {
             _canceled = true;
             setVisible(false);

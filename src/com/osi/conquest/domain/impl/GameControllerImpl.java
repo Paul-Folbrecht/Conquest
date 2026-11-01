@@ -1,23 +1,21 @@
 package com.osi.conquest.domain.impl;
 
-
 import com.osi.conquest.ConquestException;
 import com.osi.conquest.ConquestRuntimeException;
 import com.osi.conquest.Logger;
 import com.osi.conquest.domain.*;
 import com.osi.conquest.ui.MainWindow;
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-
 /**
  * @author Paul Folbrecht
  */
 public abstract class GameControllerImpl implements GameController {
+
     private static final long serialVersionUID = 1L;
     protected Player[] _players;
     protected HashMap _movementReportsInProgress = new HashMap();
@@ -32,8 +30,7 @@ public abstract class GameControllerImpl implements GameController {
     /**
      *
      */
-    public GameControllerImpl() {
-    }
+    public GameControllerImpl() {}
 
     /**
      *
@@ -228,8 +225,7 @@ public abstract class GameControllerImpl implements GameController {
     /**
      *
      */
-    public void gameRestored() {
-    }
+    public void gameRestored() {}
 
     /**
      * @param players Passed here because the controller might not have been initialized yet.
@@ -379,7 +375,7 @@ public abstract class GameControllerImpl implements GameController {
 
         if (unitToSelect == null) noUnitsToMove();
 
-        return (unitToSelect != null);
+        return unitToSelect != null;
     }
 
     /**
@@ -469,7 +465,10 @@ public abstract class GameControllerImpl implements GameController {
         for (int index = 0; index < objects.size(); index++) {
             OwnableObject object = (OwnableObject) objects.get(index);
             if (object.getOwner() != null && object.getOwner() != unit.getOwner()) {
-                if (object.isWithinSightRange(unit) && getReportInProgress(object, unit) == null) startReport(object, unit);
+                if (object.isWithinSightRange(unit) && getReportInProgress(object, unit) == null) startReport(
+                    object,
+                    unit
+                );
             }
         }
     }
@@ -566,7 +565,6 @@ public abstract class GameControllerImpl implements GameController {
      */
     protected abstract void activateNextPlayer();
 
-
     /**
      * @return true if all units & cities are far enough apart that it is safe to let player 1 take another turn.
      */
@@ -575,7 +573,10 @@ public abstract class GameControllerImpl implements GameController {
             for (int index2 = 0; index2 < _players.length; index2++) {
                 if (index != index2) {
                     Iterator it = _players[index].getUnits().iterator();
-                    int rangeLimit = (Unit.MAX_UNIT_RANGE * 2) * (1 + Math.abs(_players[index].getCurrentTurn() - _players[index2].getCurrentTurn()));
+                    int rangeLimit =
+                        Unit.MAX_UNIT_RANGE *
+                        2 *
+                        (1 + Math.abs(_players[index].getCurrentTurn() - _players[index2].getCurrentTurn()));
 
                     while (it.hasNext()) {
                         Point unitLocation = ((Unit) it.next()).getLocation();
@@ -629,7 +630,11 @@ public abstract class GameControllerImpl implements GameController {
 
             city.setOwner(_players[index]);
             _players[index].addCity(city);
-            _map.uncoverTerrain(city.getLocation(), city.getSightRepresentation().getUnitTypeData().getMaxSightRange(), _players[index]);
+            _map.uncoverTerrain(
+                city.getLocation(),
+                city.getSightRepresentation().getUnitTypeData().getMaxSightRange(),
+                _players[index]
+            );
         }
     }
 

@@ -1,6 +1,5 @@
 package com.osi.conquest.domain;
 
-
 import com.osi.conquest.ConquestException;
 import com.osi.conquest.ConquestRuntimeException;
 import com.osi.conquest.PropertyManager;
@@ -9,17 +8,16 @@ import com.osi.conquest.ui.MainWindow;
 import com.osi.conquest.ui.renderers.CityRenderer;
 import com.osi.conquest.ui.renderers.MapSquareRenderer;
 import com.osi.conquest.ui.renderers.UnitRenderer;
-
 import java.awt.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.ObjectInputStream;
 
-
 /**
  * @author Paul Folbrecht
  */
 public class ConquestFactory {
+
     protected static GameController _controller;
 
     /**
@@ -61,7 +59,9 @@ public class ConquestFactory {
      */
     public static ConquestMap loadMap(String filename) throws ConquestException {
         try {
-            ObjectInputStream stream = new ObjectInputStream(new FileInputStream(PropertyManager.getMapPath() + filename));
+            ObjectInputStream stream = new ObjectInputStream(
+                new FileInputStream(PropertyManager.getMapPath() + filename)
+            );
             ConquestMapImpl map;
 
             MainWindow.getInstance().waitCursorOn();
@@ -91,8 +91,7 @@ public class ConquestFactory {
     /**
      *
      */
-    public static Unit createUnit(String className, Player player, Point location)
-            throws ConquestRuntimeException {
+    public static Unit createUnit(String className, Player player, Point location) throws ConquestRuntimeException {
         try {
             Object object = Class.forName(className).newInstance();
 
@@ -113,8 +112,8 @@ public class ConquestFactory {
     /**
      *
      */
-    public static MapSquare createMapSquare(String type, Point location,
-                                            boolean isHidden) throws ConquestRuntimeException {
+    public static MapSquare createMapSquare(String type, Point location, boolean isHidden)
+        throws ConquestRuntimeException {
         String className = "com.osi.conquest.domain.impl.mapsquare." + type;
 
         try {

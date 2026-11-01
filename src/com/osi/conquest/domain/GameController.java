@@ -1,11 +1,8 @@
 package com.osi.conquest.domain;
 
-
 import com.osi.conquest.ConquestException;
-
 import java.awt.*;
 import java.io.Serializable;
-
 
 /**
  * @author Paul Folbrecht

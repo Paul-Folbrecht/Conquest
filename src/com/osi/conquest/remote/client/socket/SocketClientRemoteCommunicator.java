@@ -1,6 +1,5 @@
 package com.osi.conquest.remote.client.socket;
 
-
 import com.osi.conquest.ConquestException;
 import com.osi.conquest.Logger;
 import com.osi.conquest.domain.ConquestFactory;
@@ -13,16 +12,15 @@ import com.osi.conquest.remote.socket.SocketUtils;
 import com.osi.conquest.ui.MainWindow;
 import com.osi.util.Endpoint;
 import com.osi.util.SocketOpener;
-
-import javax.swing.*;
 import java.net.Socket;
 import java.util.HashMap;
-
+import javax.swing.*;
 
 /**
  * @author Paul Folbrecht
  */
 public class SocketClientRemoteCommunicator extends ClientRemoteCommunicator {
+
     /**
      *
      */
@@ -81,31 +79,33 @@ public class SocketClientRemoteCommunicator extends ClientRemoteCommunicator {
             throw new ConquestException("Could not connect to host.");
         }
 
-        SocketUtils.sendMessage(_hostConnection, new Object[]{playerName});
+        SocketUtils.sendMessage(_hostConnection, new Object[] { playerName });
         Object[] message = SocketUtils.receiveMessage(null, _hostConnection);
 
         if (message[0].equals("ok")) {
             startHostReceiver();
         }
 
-        return (message[0].equals("ok"));
+        return message[0].equals("ok");
     }
 
     /**
      *
      */
     public void sendNextPlayerMessage(Player[] players) throws ConquestException {
-        SocketUtils.sendMessage(_hostConnection,
-                new Object[]{new Integer(MessageIDs.NEXT_PLAYER), players});
+        SocketUtils.sendMessage(_hostConnection, new Object[] { new Integer(MessageIDs.NEXT_PLAYER), players });
     }
 
     /**
      *
      */
     public void sendPlayerMessage(Player to, String msg) throws ConquestException {
-        SocketUtils.sendMessage(_hostConnection, new Object[]
-                {new Integer(MessageIDs.HOST_PLAYER_MESSAGE),
-                        getController().getCurrentPlayer().toString(), new Integer(to.getId()), msg});
+        SocketUtils.sendMessage(_hostConnection, new Object[] {
+            new Integer(MessageIDs.HOST_PLAYER_MESSAGE),
+            getController().getCurrentPlayer().toString(),
+            new Integer(to.getId()),
+            msg,
+        });
     }
 
     /**
@@ -114,8 +114,10 @@ public class SocketClientRemoteCommunicator extends ClientRemoteCommunicator {
     public void sendPlayerQuittingMessage(Player player) throws ConquestException {
         if (_hostConnection != null) {
             _hostReceiver.stopListening();
-            SocketUtils.sendMessage(_hostConnection,
-                    new Object[]{new Integer(MessageIDs.PLAYER_QUITTING), new Integer(player.getId())});
+            SocketUtils.sendMessage(_hostConnection, new Object[] {
+                new Integer(MessageIDs.PLAYER_QUITTING),
+                new Integer(player.getId()),
+            });
         }
     }
 
@@ -124,8 +126,10 @@ public class SocketClientRemoteCommunicator extends ClientRemoteCommunicator {
      */
     public void sendPlayerEliminatedMessage(Player player) throws ConquestException {
         if (_hostConnection != null) {
-            SocketUtils.sendMessage(_hostConnection, new Object[]
-                    {new Integer(MessageIDs.PLAYER_ELIMINATED), new Integer(player.getId())});
+            SocketUtils.sendMessage(_hostConnection, new Object[] {
+                new Integer(MessageIDs.PLAYER_ELIMINATED),
+                new Integer(player.getId()),
+            });
         }
     }
 
@@ -141,6 +145,7 @@ public class SocketClientRemoteCommunicator extends ClientRemoteCommunicator {
      *
      */
     protected class InitGameHandler implements MessageReceiver.MessageHandler {
+
         public void handleMessage(MessageReceiver receiver, Object[] message) throws Exception {
             try {
                 String mapFilename = (String) message[1];
@@ -149,10 +154,18 @@ public class SocketClientRemoteCommunicator extends ClientRemoteCommunicator {
                 if (map == null) {
                     Thread.currentThread().sleep(500);
                     // No map here.  Host must send it.  Init the game when it arrives, via another message.
-                    SocketUtils.sendMessage(_hostConnection,
-                            new Object[]{new Integer(MessageIDs.NEED_MAP), (Integer) message[3]});
+                    SocketUtils.sendMessage(_hostConnection, new Object[] {
+                        new Integer(MessageIDs.NEED_MAP),
+                        (Integer) message[3],
+                    });
                 } else {
-                    SwingUtilities.invokeLater(new ClientRemoteCommunicator.InitGameWorker(map, (Player[]) message[2], ((Integer) message[3]).intValue()));
+                    SwingUtilities.invokeLater(
+                        new ClientRemoteCommunicator.InitGameWorker(
+                            map,
+                            (Player[]) message[2],
+                            ((Integer) message[3]).intValue()
+                        )
+                    );
                 }
             } catch (ConquestException e) {
                 MainWindow.getInstance().showError("Communications error", e);
@@ -164,8 +177,15 @@ public class SocketClientRemoteCommunicator extends ClientRemoteCommunicator {
      *
      */
     protected class ReceiveMapHandler implements MessageReceiver.MessageHandler {
+
         public void handleMessage(MessageReceiver receiver, Object[] message) throws Exception {
-            SwingUtilities.invokeLater(new ClientRemoteCommunicator.InitGameWorker((ConquestMap) message[1], (Player[]) message[2], ((Integer) message[3]).intValue()));
+            SwingUtilities.invokeLater(
+                new ClientRemoteCommunicator.InitGameWorker(
+                    (ConquestMap) message[1],
+                    (Player[]) message[2],
+                    ((Integer) message[3]).intValue()
+                )
+            );
         }
     }
 
@@ -173,8 +193,14 @@ public class SocketClientRemoteCommunicator extends ClientRemoteCommunicator {
      *
      */
     protected class ActivatePlayerHandler implements MessageReceiver.MessageHandler {
+
         public void handleMessage(MessageReceiver receiver, Object[] message) throws Exception {
-            SwingUtilities.invokeLater(new ClientRemoteCommunicator.ActivatePlayerWorker(((Integer) message[1]).intValue(), (Player[]) message[2]));
+            SwingUtilities.invokeLater(
+                new ClientRemoteCommunicator.ActivatePlayerWorker(
+                    ((Integer) message[1]).intValue(),
+                    (Player[]) message[2]
+                )
+            );
         }
     }
 
@@ -182,8 +208,11 @@ public class SocketClientRemoteCommunicator extends ClientRemoteCommunicator {
      *
      */
     protected class PlayerMessageHandler implements MessageReceiver.MessageHandler {
+
         public void handleMessage(MessageReceiver receiver, Object[] message) throws Exception {
-            SwingUtilities.invokeLater(new ClientRemoteCommunicator.PlayerMessageWorker((String) message[1], (String) message[2]));
+            SwingUtilities.invokeLater(
+                new ClientRemoteCommunicator.PlayerMessageWorker((String) message[1], (String) message[2])
+            );
         }
     }
 
@@ -191,6 +220,7 @@ public class SocketClientRemoteCommunicator extends ClientRemoteCommunicator {
      *
      */
     protected class HostQuittingHandler implements MessageReceiver.MessageHandler {
+
         public void handleMessage(MessageReceiver receiver, Object[] message) throws Exception {
             SwingUtilities.invokeLater(new ClientRemoteCommunicator.HostQuittingWorker());
         }
@@ -200,6 +230,7 @@ public class SocketClientRemoteCommunicator extends ClientRemoteCommunicator {
      *
      */
     protected class LocalPlayerEliminatedHandler implements MessageReceiver.MessageHandler {
+
         public void handleMessage(MessageReceiver receiver, Object[] message) throws Exception {
             SwingUtilities.invokeLater(new ClientRemoteCommunicator.LocalPlayerEliminatedWorker());
         }

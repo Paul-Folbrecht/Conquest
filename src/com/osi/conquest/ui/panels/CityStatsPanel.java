@@ -1,18 +1,16 @@
 package com.osi.conquest.ui.panels;
 
-
 import com.osi.conquest.domain.City;
-
+import java.awt.*;
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.AbstractTableModel;
-import java.awt.*;
-
 
 /**
  * @author Paul Folbrecht
  */
 public class CityStatsPanel extends JPanel {
+
     protected City _city;
     protected JTable _table;
 
@@ -57,8 +55,11 @@ public class CityStatsPanel extends JPanel {
      */
     protected JComponent createTable() {
         _table = new JTable(new CityStatsTableModel());
-        JScrollPane scroller = new JScrollPane(_table, JScrollPane.VERTICAL_SCROLLBAR_NEVER,
-                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        JScrollPane scroller = new JScrollPane(
+            _table,
+            JScrollPane.VERTICAL_SCROLLBAR_NEVER,
+            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
+        );
 
         _table.setTableHeader(null);
         scroller.getViewport().setPreferredSize(_table.getPreferredSize());
@@ -70,6 +71,7 @@ public class CityStatsPanel extends JPanel {
      *
      */
     protected class CityStatsTableModel extends AbstractTableModel {
+
         private static final int COLS = 2;
         private static final int ROWS = 5;
         private static final int NAME_COLUMN = 0;
@@ -79,11 +81,9 @@ public class CityStatsPanel extends JPanel {
         private static final int PRODUCTION_ROW = 2;
         private static final int TIME_ROW = 3;
         private static final int HAS_AUTOFORWARD_ROW = 4;
-        private String[] _names =
-                {"Name:", "Location:", "Producing:", "Time To Completion:", "Has AutoForward:"};
+        private String[] _names = { "Name:", "Location:", "Producing:", "Time To Completion:", "Has AutoForward:" };
 
-        public CityStatsTableModel() {
-        }
+        public CityStatsTableModel() {}
 
         public int getRowCount() {
             return ROWS;

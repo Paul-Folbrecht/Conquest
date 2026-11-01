@@ -1,13 +1,12 @@
 package com.osi.util.ui;
 
-
 import javax.swing.*;
-
 
 /**
  *
  */
 public class ToolBarButton extends JButton {
+
     /**
      *
      */
@@ -20,4 +19,3 @@ public class ToolBarButton extends JButton {
         setFocusPainted(false);
     }
 }
-

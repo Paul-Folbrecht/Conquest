@@ -1,8 +1,6 @@
 package com.osi.conquest.domain;
 
-
 import java.util.List;
-
 
 /**
  * This is an interface to a unit type that is capable of transporting other

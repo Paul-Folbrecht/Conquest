@@ -1,6 +1,5 @@
 package com.osi.conquest.ui.event;
 
-
 /**
  * Should be implemented by objects that want to know about game events.
  *

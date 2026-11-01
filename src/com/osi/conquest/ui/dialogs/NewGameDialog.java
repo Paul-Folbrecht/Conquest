@@ -1,21 +1,19 @@
 package com.osi.conquest.ui.dialogs;
 
-
 import com.osi.conquest.domain.ConquestMap;
 import com.osi.conquest.domain.Player;
 import com.osi.conquest.ui.dialogs.newgame.MapPanel;
 import com.osi.conquest.ui.dialogs.newgame.PlayersPanel;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import javax.swing.*;
 
 /**
  * @author Paul Folbrecht
  */
 public class NewGameDialog extends JDialog {
+
     protected PlayersPanel _playersPanel = new PlayersPanel();
     protected MapPanel _mapPanel = new MapPanel();
     protected boolean _canceled = false;
@@ -59,10 +57,22 @@ public class NewGameDialog extends JDialog {
         JTabbedPane tabPane = new JTabbedPane(JTabbedPane.TOP);
 
         panel.setBorder(BorderFactory.createRaisedBevelBorder());
-        tabPane.addTab("Players", new JScrollPane(_playersPanel,
-                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED));
-        tabPane.addTab("Map", new JScrollPane(_mapPanel,
-                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED));
+        tabPane.addTab(
+            "Players",
+            new JScrollPane(
+                _playersPanel,
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
+            )
+        );
+        tabPane.addTab(
+            "Map",
+            new JScrollPane(
+                _mapPanel,
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
+            )
+        );
         panel.setLayout(new BorderLayout());
         panel.add(tabPane, BorderLayout.CENTER);
         panel.add(createButtonPanel(), BorderLayout.SOUTH);
@@ -85,12 +95,14 @@ public class NewGameDialog extends JDialog {
 
         panel.add(button);
         button = new JButton("Cancel");
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                setVisible(false);
-                _canceled = true;
+        button.addActionListener(
+            new ActionListener() {
+                public void actionPerformed(ActionEvent event) {
+                    setVisible(false);
+                    _canceled = true;
+                }
             }
-        });
+        );
         panel.add(button);
 
         return panel;
@@ -100,6 +112,7 @@ public class NewGameDialog extends JDialog {
      *
      */
     protected class OkAction implements ActionListener {
+
         public void actionPerformed(ActionEvent event) {
             if (_playersPanel.validateData() && _mapPanel.validateData()) {
                 _mapPanel.onOk();

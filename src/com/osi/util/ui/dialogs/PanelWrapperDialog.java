@@ -1,11 +1,9 @@
 package com.osi.util.ui.dialogs;
 
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import javax.swing.*;
 
 /**
  * Dialog built to wrap a panel.  If the panel implements WrappablePanel,
@@ -14,6 +12,7 @@ import java.awt.event.ActionListener;
  * @author Paul Folbrecht
  */
 public class PanelWrapperDialog extends JDialog {
+
     protected JPanel _panel;
     protected boolean _canceled = false;
     protected String[] _buttons;
@@ -21,8 +20,7 @@ public class PanelWrapperDialog extends JDialog {
     /**
      *
      */
-    public PanelWrapperDialog(Frame frame, String title, boolean modal,
-                              JPanel panel, String[] buttons) {
+    public PanelWrapperDialog(Frame frame, String title, boolean modal, JPanel panel, String[] buttons) {
         super(frame, title, modal);
 
         setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
@@ -86,6 +84,7 @@ public class PanelWrapperDialog extends JDialog {
      *
      */
     protected class OkAction implements ActionListener {
+
         public void actionPerformed(ActionEvent event) {
             if (_panel instanceof Validatable) {
                 if (((Validatable) _panel).validateData() == false) {
@@ -103,6 +102,7 @@ public class PanelWrapperDialog extends JDialog {
      *
      */
     protected class CancelAction implements ActionListener {
+
         public void actionPerformed(ActionEvent event) {
             if (_panel instanceof Validatable) {
                 ((Validatable) _panel).onCancel();

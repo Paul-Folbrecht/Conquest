@@ -1,6 +1,5 @@
 package com.osi.conquest.domain.impl;
 
-
 import com.osi.conquest.ConquestException;
 import com.osi.conquest.domain.Player;
 import com.osi.conquest.remote.host.Host;
@@ -9,11 +8,11 @@ import com.osi.util.ui.dialogs.DialogUtils;
 import com.osi.util.ui.dialogs.PanelWrapperDialog;
 import com.osi.util.ui.panels.ThreadProgressPanel;
 
-
 /**
  * @author Paul Folbrecht
  */
 public class HostGameController extends GameControllerImpl {
+
     protected Player _lastLocalPlayer;
 
     /**
@@ -57,8 +56,7 @@ public class HostGameController extends GameControllerImpl {
     /**
      *
      */
-    public void localPlayerQuitting() {
-    }
+    public void localPlayerQuitting() {}
 
     /**
      * Called when a player is eliminated on any machine- will be called by a message handler in
@@ -181,11 +179,9 @@ public class HostGameController extends GameControllerImpl {
 
             try {
                 Thread thread = Host.getInstance().initClients(getPlayers());
-                ThreadProgressPanel panel =
-                        new ThreadProgressPanel("Initializing remote players...", thread);
+                ThreadProgressPanel panel = new ThreadProgressPanel("Initializing remote players...", thread);
 
-                dlg = new PanelWrapperDialog(MainWindow.getInstance(), "Conquest", true,
-                        panel, new String[0]);
+                dlg = new PanelWrapperDialog(MainWindow.getInstance(), "Conquest", true, panel, new String[0]);
                 DialogUtils.showCentered(MainWindow.getInstance(), dlg);
             } catch (ConquestException e) {
                 dlg.setVisible(false);

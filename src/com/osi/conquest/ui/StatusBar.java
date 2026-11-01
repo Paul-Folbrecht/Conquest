@@ -1,9 +1,7 @@
 package com.osi.conquest.ui;
 
-
-import javax.swing.*;
 import java.awt.*;
-
+import javax.swing.*;
 
 /**
  * Title:
@@ -15,8 +13,8 @@ import java.awt.*;
  * @version 1.0
  */
 public class StatusBar extends JPanel {
-    protected JLabel _label = new JLabel("Conquest");
 
+    protected JLabel _label = new JLabel("Conquest");
 
     /**
      *

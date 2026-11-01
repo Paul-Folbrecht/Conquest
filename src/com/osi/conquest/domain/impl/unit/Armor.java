@@ -1,16 +1,15 @@
 package com.osi.conquest.domain.impl.unit;
 
-
 import com.osi.conquest.domain.MapSquare;
 import com.osi.conquest.domain.impl.mapsquare.Forest;
 import com.osi.conquest.domain.impl.mapsquare.Mountain;
 import com.osi.conquest.domain.impl.mapsquare.Water;
 
-
 /**
  * @author Paul Folbrecht
  */
 public class Armor extends LandUnit {
+
     /**
      *
      */
@@ -22,6 +21,7 @@ public class Armor extends LandUnit {
      *
      */
     public static class UnitTypeDataImpl extends LandUnit.UnitTypeDataImpl {
+
         public String getName() {
             return "Armor";
         }

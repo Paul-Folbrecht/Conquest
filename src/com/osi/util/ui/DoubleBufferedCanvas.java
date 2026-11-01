@@ -1,10 +1,8 @@
 package com.osi.util.ui;
 
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-
+import javax.swing.*;
 
 /**
  * This abstract class provides the basic functionality needed for a double-buffered drawing surface.
@@ -13,6 +11,7 @@ import java.awt.image.BufferedImage;
  */
 
 public abstract class DoubleBufferedCanvas extends JComponent {
+
     protected BufferedImage _buffer;
     protected Rectangle _dirtyRect = new Rectangle(0, 0);
     protected boolean _blankScreen = true;

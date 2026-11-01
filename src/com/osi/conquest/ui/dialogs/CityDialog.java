@@ -1,6 +1,5 @@
 package com.osi.conquest.ui.dialogs;
 
-
 import com.osi.conquest.domain.City;
 import com.osi.conquest.domain.Player;
 import com.osi.conquest.domain.impl.unit.UnitImpl;
@@ -10,18 +9,17 @@ import com.osi.conquest.ui.renderers.UnitRenderer;
 import com.osi.util.StringUtils;
 import com.osi.util.ui.dialogs.DialogUtils;
 import com.osi.util.ui.dialogs.PanelWrapperDialog;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-
+import javax.swing.*;
 
 /**
  * @author Paul Folbrecht
  */
 public class CityDialog extends JDialog {
+
     protected Player _player;
     protected City _city;
     protected Class _typeToProduce;
@@ -69,8 +67,8 @@ public class CityDialog extends JDialog {
         _mainPanel.setLayout(new GridLayout(classes.size(), 1));
         for (int index = 0; index < classes.size(); index++) {
             Class unitClass = (Class) classes.get(index);
-            String buttonText = StringUtils.stripClassName(unitClass) + " - " +
-                    _city.getTurnsTillCompletion(unitClass) + " turns";
+            String buttonText =
+                StringUtils.stripClassName(unitClass) + " - " + _city.getTurnsTillCompletion(unitClass) + " turns";
             JRadioButton button = new JRadioButton(buttonText);
             JPanel rowPanel = new JPanel();
 
@@ -93,27 +91,33 @@ public class CityDialog extends JDialog {
         panel1.setLayout(borderLayout1);
         _ok.setText("Ok");
         getRootPane().setDefaultButton(_ok);
-        _ok.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                _ok_actionPerformed(e);
+        _ok.addActionListener(
+            new java.awt.event.ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    _ok_actionPerformed(e);
+                }
             }
-        });
+        );
         _cancel.setText("Cancel");
-        _cancel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                _cancel_actionPerformed(e);
+        _cancel.addActionListener(
+            new java.awt.event.ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    _cancel_actionPerformed(e);
+                }
             }
-        });
+        );
         _name.setText("Name");
         panel1.setBorder(BorderFactory.createRaisedBevelBorder());
         _mainPanel.setBorder(BorderFactory.createRaisedBevelBorder());
         _mainPanel.setLayout(borderLayout2);
         _units.setText("Units");
-        _units.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                _units_actionPerformed(e);
+        _units.addActionListener(
+            new java.awt.event.ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    _units_actionPerformed(e);
+                }
             }
-        });
+        );
         this.getContentPane().add(panel1, BorderLayout.CENTER);
         panel1.add(_buttonPanel, BorderLayout.SOUTH);
         _buttonPanel.setBorder(BorderFactory.createRaisedBevelBorder());
@@ -127,13 +131,19 @@ public class CityDialog extends JDialog {
 
     void _units_actionPerformed(ActionEvent event) {
         UnitsPanel panel = new UnitsPanel(_city.getUnits(), true, _readOnly);
-        PanelWrapperDialog dialog =
-                new PanelWrapperDialog(MainWindow.getInstance(), "Conquest", true, panel, new String[0]);
+        PanelWrapperDialog dialog = new PanelWrapperDialog(
+            MainWindow.getInstance(),
+            "Conquest",
+            true,
+            panel,
+            new String[0]
+        );
 
         DialogUtils.showCentered(MainWindow.getInstance(), dialog);
     }
 
     protected class UnitButtonHandler implements ActionListener {
+
         protected Class _unitClass;
 
         public UnitButtonHandler(Class unitClass) {

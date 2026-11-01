@@ -1,6 +1,5 @@
 package com.osi.conquest.ui.dialogs.newgame;
 
-
 import com.osi.conquest.ConquestRuntimeException;
 import com.osi.conquest.Logger;
 import com.osi.conquest.PropertyManager;
@@ -8,16 +7,15 @@ import com.osi.util.Endpoint;
 import com.osi.util.ui.dialogs.Validatable;
 import com.osi.util.ui.panels.GetNamePanel;
 import com.osi.util.ui.panels.TCPPanel;
-
-import javax.swing.*;
 import java.awt.*;
 import java.util.StringTokenizer;
-
+import javax.swing.*;
 
 /**
  * @author Paul Folbrecht
  */
 public class ConnectToHostPanel extends JPanel implements Validatable {
+
     protected TCPPanel _tcpPanel;
     protected GetNamePanel _namePanel;
 
@@ -46,8 +44,7 @@ public class ConnectToHostPanel extends JPanel implements Validatable {
     /**
      * Validatable implementation.
      */
-    public void onAdded() {
-    }
+    public void onAdded() {}
 
     /**
      *
@@ -73,8 +70,7 @@ public class ConnectToHostPanel extends JPanel implements Validatable {
     /**
      *
      */
-    public void onCancel() {
-    }
+    public void onCancel() {}
 
     /**
      *
@@ -95,8 +91,7 @@ public class ConnectToHostPanel extends JPanel implements Validatable {
         try {
             int index = 0;
             String[] address = new String[4];
-            StringTokenizer tokenizer =
-                    new StringTokenizer(PropertyManager.getPref("connectToHost.hostIP"), ".");
+            StringTokenizer tokenizer = new StringTokenizer(PropertyManager.getPref("connectToHost.hostIP"), ".");
 
             while (tokenizer.hasMoreTokens()) {
                 address[index++] = tokenizer.nextToken();

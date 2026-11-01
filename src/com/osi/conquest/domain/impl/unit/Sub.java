@@ -1,10 +1,10 @@
 package com.osi.conquest.domain.impl.unit;
 
-
 /**
  * @author Paul Folbrecht
  */
 public class Sub extends SeaUnit {
+
     /**
      *
      */
@@ -23,6 +23,7 @@ public class Sub extends SeaUnit {
      *
      */
     public static class UnitTypeDataImpl extends SeaUnit.UnitTypeDataImpl {
+
         public String getName() {
             return "Sub";
         }

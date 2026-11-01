@@ -1,14 +1,11 @@
 package com.osi.conquest.remote.socket;
 
-
 import com.osi.conquest.ConquestException;
 import com.osi.conquest.Logger;
 import com.osi.conquest.ui.MainWindow;
 import com.osi.util.StringUtils;
-
 import java.io.*;
 import java.net.Socket;
-
 
 /**
  * All-static class of socket utility methods.
@@ -18,6 +15,7 @@ import java.net.Socket;
  */
 
 public class SocketUtils {
+
     public static final int READ_INTERVAL = 500;
 
     /**
@@ -29,8 +27,9 @@ public class SocketUtils {
             synchronized (socket) {
                 ObjectOutputStream stream = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
 
-                Logger.info("Sending socket message to " + socket.getInetAddress() + ": " +
-                        StringUtils.toString(message));
+                Logger.info(
+                    "Sending socket message to " + socket.getInetAddress() + ": " + StringUtils.toString(message)
+                );
                 socket.setSoTimeout(0);
                 stream.writeObject(new Integer(message.length));
                 for (int index = 0; index < message.length; index++) {
@@ -47,15 +46,15 @@ public class SocketUtils {
     /**
      *
      */
-    public static Object[] receiveMessage(MessageReceiver receiver, Socket socket)
-            throws ConquestException {
+    public static Object[] receiveMessage(MessageReceiver receiver, Socket socket) throws ConquestException {
         try {
             while (receiver == null || receiver.isRunning()) {
                 try {
                     synchronized (socket) {
                         socket.setSoTimeout(READ_INTERVAL);
-                        ObjectInputStream stream =
-                                new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
+                        ObjectInputStream stream = new ObjectInputStream(
+                            new BufferedInputStream(socket.getInputStream())
+                        );
                         int count = ((Integer) stream.readObject()).intValue();
                         Object[] message = new Object[count];
 
@@ -70,8 +69,12 @@ public class SocketUtils {
                             receiver.beforeAck(message);
                         }
                         sendAck(socket);
-                        Logger.info("Received socket message from " + socket.getInetAddress() + ": " +
-                                StringUtils.toString(message));
+                        Logger.info(
+                            "Received socket message from " +
+                                socket.getInetAddress() +
+                                ": " +
+                                StringUtils.toString(message)
+                        );
 
                         return message;
                     }
@@ -117,6 +120,7 @@ public class SocketUtils {
      *
      */
     public static class SendMessageWorker implements Runnable {
+
         protected Socket _socket;
         protected Object[] _message;
 

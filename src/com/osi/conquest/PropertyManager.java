@@ -1,9 +1,5 @@
 package com.osi.conquest;
 
-
-import javax.imageio.ImageIO;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -11,12 +7,14 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
-
+import javax.imageio.ImageIO;
+import javax.swing.*;
 
 /**
  * @author Paul Folbrecht
  */
 public class PropertyManager {
+
     protected static Properties _properties = new Properties();
     protected static Properties _preferences = new Properties();
 
@@ -98,7 +96,10 @@ public class PropertyManager {
     public static void savePrefs() {
         try {
             String separator = System.getProperty("file.separator");
-            _preferences.store(new FileOutputStream(Main.getHomeDirectory() + separator + "conquestPrefs.properties"), null);
+            _preferences.store(
+                new FileOutputStream(Main.getHomeDirectory() + separator + "conquestPrefs.properties"),
+                null
+            );
         } catch (IOException e) {
             Logger.error("Could not write preferences.", e);
         }
@@ -114,8 +115,7 @@ public class PropertyManager {
         tracker.addImage(image, 0);
         try {
             tracker.waitForAll();
-        } catch (InterruptedException e) {
-        }
+        } catch (InterruptedException e) {}
 
         return image;
     }
@@ -139,8 +139,7 @@ public class PropertyManager {
     /**
      *
      */
-    protected static String getProperty(Properties props, String key)
-            throws ConquestRuntimeException {
+    protected static String getProperty(Properties props, String key) throws ConquestRuntimeException {
         String value = props.getProperty(key);
 
         if (value == null) {
@@ -153,8 +152,7 @@ public class PropertyManager {
     /**
      *
      */
-    protected static int getIntProperty(Properties props, String key)
-            throws ConquestRuntimeException {
+    protected static int getIntProperty(Properties props, String key) throws ConquestRuntimeException {
         try {
             return Integer.parseInt(getProperty(props, key));
         } catch (NumberFormatException e) {

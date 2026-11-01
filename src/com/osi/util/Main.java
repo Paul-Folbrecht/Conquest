@@ -1,15 +1,14 @@
 package com.osi.util;
 
-
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-
 
 /**
  * @author Paul Folbrecht
  */
 public class Main {
+
     private static int lines = 0;
 
     /**

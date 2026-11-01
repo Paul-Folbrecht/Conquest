@@ -1,17 +1,15 @@
 package com.osi.conquest.domain.impl.unit;
 
-
 import com.osi.conquest.domain.City;
 import com.osi.conquest.domain.MapSquare;
 import com.osi.conquest.domain.Unit;
-
 import java.awt.*;
-
 
 /**
  * @author Paul Folbrecht
  */
 public class Spy extends LandUnit {
+
     /**
      *
      */
@@ -58,10 +56,18 @@ public class Spy extends LandUnit {
 
             if (getRandom() < .5) {
                 getController().sendPlayerMessage("Host", getController().getCurrentPlayer(), "Your Spy was captured.");
-                getController().sendPlayerMessage("Host", city.getOwner(), "An enemy Spy was captured in " + city.getName());
+                getController().sendPlayerMessage(
+                    "Host",
+                    city.getOwner(),
+                    "An enemy Spy was captured in " + city.getName()
+                );
                 destroy();
             } else if (getRandom() < .5) {
-                getController().sendPlayerMessage("Host", city.getOwner(), city.getName() + " was investigated by an enemy Spy!");
+                getController().sendPlayerMessage(
+                    "Host",
+                    city.getOwner(),
+                    city.getName() + " was investigated by an enemy Spy!"
+                );
             }
 
             result = new UnitImpl.MoveToReturnImpl(true, Unit.MoveToReturn.IGNORE_THIS);
@@ -76,6 +82,7 @@ public class Spy extends LandUnit {
      *
      */
     public static class UnitTypeDataImpl extends LandUnit.UnitTypeDataImpl {
+
         public String getName() {
             return "Spy";
         }

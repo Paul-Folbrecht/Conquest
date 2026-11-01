@@ -1,36 +1,35 @@
 package com.osi.conquest;
 
-
 //import org.apache.log4j.BasicConfigurator;
 //import org.apache.log4j.Category;
 //import org.apache.log4j.PropertyConfigurator;
-
 
 /**
  * @author Paul Folbrecht
  */
 public class Logger {
-//    protected static Category _logger = Category.getInstance("Conquest");
+
+    //    protected static Category _logger = Category.getInstance("Conquest");
 
     /**
      * Init log4j.
      */
-//    static {
-//        try {
-//            String configFile = (String) PropertyManager.getProperty("log4j.configfile");
-//            PropertyConfigurator.configure(configFile);
-//        } catch (ConquestRuntimeException e) {
-//            // Use BasicConfigurator by default.
-//            BasicConfigurator.configure();
-//        }
-//    }
+    //    static {
+    //        try {
+    //            String configFile = (String) PropertyManager.getProperty("log4j.configfile");
+    //            PropertyConfigurator.configure(configFile);
+    //        } catch (ConquestRuntimeException e) {
+    //            // Use BasicConfigurator by default.
+    //            BasicConfigurator.configure();
+    //        }
+    //    }
 
     /**
      *
      */
     public static void debug(String text) {
         System.out.println(text);
-//        _logger.debug(text);
+        //        _logger.debug(text);
     }
 
     /**
@@ -38,7 +37,7 @@ public class Logger {
      */
     public static void info(String text) {
         System.out.println(text);
-//        _logger.info(text);
+        //        _logger.info(text);
     }
 
     /**
@@ -46,7 +45,7 @@ public class Logger {
      */
     public static void warn(String text) {
         System.out.println(text);
-//        _logger.warn(text);
+        //        _logger.warn(text);
     }
 
     /**
@@ -54,7 +53,7 @@ public class Logger {
      */
     public static void error(String text) {
         System.out.println(text);
-//        _logger.error(text);
+        //        _logger.error(text);
         new Throwable().printStackTrace();
     }
 
@@ -63,7 +62,7 @@ public class Logger {
      */
     public static void error(Exception e) {
         new Throwable().printStackTrace();
-//        _logger.error(e);
+        //        _logger.error(e);
         e.printStackTrace();
     }
 
@@ -72,7 +71,7 @@ public class Logger {
      */
     public static void error(String text, Exception e) {
         new Throwable().printStackTrace();
-//        _logger.error(text, e);
+        //        _logger.error(text, e);
         e.printStackTrace();
     }
 }

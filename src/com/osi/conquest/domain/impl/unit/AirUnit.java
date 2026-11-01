@@ -1,18 +1,16 @@
 package com.osi.conquest.domain.impl.unit;
 
-
 import com.osi.conquest.domain.City;
 import com.osi.conquest.domain.MapSquare;
 import com.osi.conquest.domain.Player;
 import com.osi.conquest.domain.Unit;
-
 import java.awt.*;
-
 
 /**
  * @author Paul Folbrecht
  */
 public abstract class AirUnit extends UnitImpl {
+
     private static final long serialVersionUID = 1L;
     protected int _range;
 
@@ -118,8 +116,8 @@ public abstract class AirUnit extends UnitImpl {
         City city = square.getCity();
         Unit unit = square.getUnit();
 
-        if (city != null) return (city.getOwner() != getOwner() && city.getFirstDefender() != null);
-        else return (unit != null && unit.getOwner() != getOwner());
+        if (city != null) return city.getOwner() != getOwner() && city.getFirstDefender() != null;
+        else return unit != null && unit.getOwner() != getOwner();
     }
 
     /**
@@ -128,7 +126,10 @@ public abstract class AirUnit extends UnitImpl {
     protected boolean checkOverlappingMove(MapSquare square) {
         boolean result = super.checkOverlappingMove(square);
 
-        if (!result) result = (getController().getMap().findUnoccupiedSquareWithinRadius(this, getMovementPoints() - 1) != null);
+        if (!result) result =
+            getController()
+                .getMap()
+                .findUnoccupiedSquareWithinRadius(this, getMovementPoints() - 1) != null;
 
         return result;
     }
@@ -136,7 +137,8 @@ public abstract class AirUnit extends UnitImpl {
     /**
      *
      */
-    public static abstract class UnitTypeDataImpl extends UnitImpl.UnitTypeDataImpl {
+    public abstract static class UnitTypeDataImpl extends UnitImpl.UnitTypeDataImpl {
+
         public boolean canAttackCity() {
             return false;
         }

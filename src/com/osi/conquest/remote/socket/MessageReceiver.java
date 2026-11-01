@@ -1,14 +1,11 @@
 package com.osi.conquest.remote.socket;
 
-
 import com.osi.conquest.ConquestException;
 import com.osi.conquest.Logger;
 import com.osi.conquest.domain.ConquestFactory;
 import com.osi.conquest.remote.MessageIDs;
-
 import java.net.Socket;
 import java.util.HashMap;
-
 
 /**
  * This Runnable object reads a single message from the a socket.  It blocks until the message
@@ -17,6 +14,7 @@ import java.util.HashMap;
  * @author Paul Folbrecht
  */
 public class MessageReceiver implements Runnable {
+
     protected HashMap _handlers;
     protected Socket _socket;
     protected boolean _run = true;

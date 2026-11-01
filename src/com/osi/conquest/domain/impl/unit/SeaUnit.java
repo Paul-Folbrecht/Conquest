@@ -1,19 +1,17 @@
 package com.osi.conquest.domain.impl.unit;
 
-
 import com.osi.conquest.domain.City;
 import com.osi.conquest.domain.ConquestFactory;
 import com.osi.conquest.domain.MapSquare;
 import com.osi.conquest.domain.Unit;
 import com.osi.conquest.domain.impl.mapsquare.Water;
-
 import java.awt.*;
-
 
 /**
  * @author Paul Folbrecht
  */
 public abstract class SeaUnit extends UnitImpl {
+
     private static final long serialVersionUID = 1L;
     protected static final int CRIPPLED = 32;
 
@@ -33,7 +31,7 @@ public abstract class SeaUnit extends UnitImpl {
         City city = square.getCity();
         Unit unit = square.getUnit();
 
-        if (city != null) return (city.getOwner() != getOwner() && city.getFirstDefender() != null);
+        if (city != null) return city.getOwner() != getOwner() && city.getFirstDefender() != null;
         else if (unit != null && unit.getOwner() != getOwner()) {
             if (square.isWater() || unit instanceof LandUnit) return true;
             else return false;
@@ -67,7 +65,7 @@ public abstract class SeaUnit extends UnitImpl {
     public void damage(int damage) {
         super.damage(damage);
 
-        if ((_flags & CRIPPLED) == 0 && getHitPoints() <= (getUnitTypeData().getMaxHitPoints() / 2)) {
+        if ((_flags & CRIPPLED) == 0 && getHitPoints() <= getUnitTypeData().getMaxHitPoints() / 2) {
             _flags |= CRIPPLED;
             if (getMovementPoints() > getMaxMovementPoints() / 2) _movementPoints = getMaxMovementPoints() / 2;
         }
@@ -85,7 +83,8 @@ public abstract class SeaUnit extends UnitImpl {
     /**
      *
      */
-    public static abstract class UnitTypeDataImpl extends UnitImpl.UnitTypeDataImpl {
+    public abstract static class UnitTypeDataImpl extends UnitImpl.UnitTypeDataImpl {
+
         public int getMaxRange() {
             return -1;
         }
